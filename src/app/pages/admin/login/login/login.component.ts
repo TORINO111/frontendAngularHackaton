@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.less'
 })
 export class LoginComponent {
-  constructor() {}
 
-  
+
 }

@@ -1,14 +1,15 @@
 import { Injectable, signal } from '@angular/core';
-import { LoginResponse, Role, User } from '../../../models/user.model';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { AuthResponse, LoginResponse, Role, RoleEnum, User, UserCredentials } from '../../../models/user.model';
+import { BehaviorSubject, catchError, delay, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IAuthService } from '../IAuthService';
+import { environment } from '../../../../../environments/environment.prod';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService implements IAuthService{
 
-  private API_URL = 'http://localhost:8080/api/auth'
 
   currentUserSignal = signal<User|null>(null);
 
@@ -22,8 +23,16 @@ export class AuthenticationService implements IAuthService{
     return !!this.currentUserSignal();
   }
 
+  logout(): void {
+    this.currentUserSignal.set(null);
+  }
+
+  isAdmin(): boolean {
+    return this.isAuthenticated() && this.currentUserSignal()?.role === 'Admin';
+  }
+
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/login`, {
+    return this.http.post<LoginResponse>(`${environment.apiUrl}/authentification`, {
       username,
       password
     }).pipe(
@@ -40,14 +49,6 @@ export class AuthenticationService implements IAuthService{
         });
       })
     );
-  }
-
-  logout(): void {
-    this.currentUserSignal.set(null);
-  }
-
-  isAdmin(): boolean {
-    return this.isAuthenticated() && this.currentUserSignal()?.role === 'Admin';
   }
 
 }

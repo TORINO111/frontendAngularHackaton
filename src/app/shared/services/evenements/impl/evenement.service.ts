@@ -1,37 +1,43 @@
-import { Injectable } from '@angular/core';
-import { IEvenementService } from '../IEvenementService';
-import { Observable } from 'rxjs';
-import { Evenement } from '../../../models/evenement.model';
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EvenementAdminView, EvenementFiltres, PaginatedResponse, StatutJustificationApp } from '../../../models/evenement.model';
+import { IEvenementService } from '../IEvenementService';
+import { MOCK_EVENEMENTS } from '../../../mock/mock-data';
+import { environment } from '../../../../../environments/environment.prod';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvenementService implements IEvenementService {
 
-  private API_URL = 'http://localhost:8080/api/absences';
-  http: any;
+  private http = Inject(HttpClient);
 
   constructor(private httpClient: HttpClient) { }
 
-  getEvenementByEtudiantID(etudiantId: number): Observable<Evenement> {
-    return this.httpClient.get<Evenement>(`API_URL/${etudiantId}`);
+  getEvenements(filtres?: EvenementFiltres): Observable<PaginatedResponse<EvenementAdminView>> {
+    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences`);
+  }
+
+  getEvenementsByEtudiantID(etudiantId: string | number): Observable<PaginatedResponse<EvenementAdminView>> {
+    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences/etudiant/${etudiantId}`);
   }
   
-  validerJustification(id: number): Observable<void> {
-    return this.httpClient.put<void>(`${this.API_URL}/${id}/valider`, {});
+  validerJustification(absenceId: string | number ): Observable<void> {
+    return this.httpClient.put<void>(`${environment.apiUrl}/absences/valider/${absenceId}`, {});
   }
-  getEvenements(): Observable<Evenement[]> {
-    return this.httpClient.get<Evenement[]>(`API_URL`);
+
+  getEvenementsByEtat(etat: string): Observable<PaginatedResponse<EvenementAdminView>> {
+    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences/${etat}`);
   }
-  getEvenementByID(evenementId: number): Observable<Evenement> {
-    return this.httpClient.get<Evenement>(`API_URL/${evenementId}`);
+
+  getEvenementsByType(type: string): Observable<PaginatedResponse<EvenementAdminView>> {
+    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences/${type}`);
   }
-  getEvenementByEtat(etat: string): Observable<Evenement> {
-    return this.httpClient.get<Evenement>(`API_URL/${etat}`);
-  }
-  getEvenementByType(etat: string): Observable<Evenement> {
-    throw new Error('Method not implemented.');
+
+  rejeterJustification(absenceId: string | number): Observable<any> {
+    return this.httpClient.put<void>(`${environment.apiUrl}/absences/rejeter/${absenceId}`, {});
   }
 
 }

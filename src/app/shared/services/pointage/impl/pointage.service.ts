@@ -3,18 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pointage } from '../../../models/pointage.model';
 import { IPointageService } from '../IPointageService';
+import { environment } from '../../../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PointageService implements IPointageService{
 
-  private API_URL = 'http://localhost:8080/api/pointages';
-
   constructor(private http: HttpClient) {}
 
   pointer(etudiantId: number, sessionId: number, vigileId: number): Observable<Pointage> {
-    return this.http.post<Pointage>(`${this.API_URL}/pointer`, {
+    return this.http.post<Pointage>(`${environment.apiUrl}/pointage/pointer`, {
       etudiantId,
       sessionId,
       vigileId
@@ -22,11 +21,11 @@ export class PointageService implements IPointageService{
   }
 
   getPointagesByEtudiant(etudiantId: number): Observable<Pointage[]> {
-    return this.http.get<Pointage[]>(`${this.API_URL}/etudiant/${etudiantId}`);
+    return this.http.get<Pointage[]>(`${environment.apiUrl}/pointage/etudiant/${etudiantId}`);
   }
 
   getPointagesBySession(sessionId: number): Observable<Pointage[]> {
-    return this.http.get<Pointage[]>(`${this.API_URL}/session/${sessionId}`);
+    return this.http.get<Pointage[]>(`${environment.apiUrl}/pointage/session/${sessionId}`);
   }
 
 }

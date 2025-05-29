@@ -1,14 +1,25 @@
+export type Role = "Admin"| "Etudiant" | "Vigile";
+
 export interface User {
-    id: number;
+    id: string | number;
     nom: string;
     prenom: string;
     login: string;
     password: string;
-    telephone: string;
+    telephone?: string;
     role: Role;
 }
 
-export type Role = "Admin"| "Etudiant" | "Vigile";
+export interface UserCredentials {
+    login: string;
+    password?: string;
+}
+
+export interface AuthResponse {
+    token: string;
+    user: User;
+}
+
 
 export enum RoleEnum {
     Admin = "Admin",

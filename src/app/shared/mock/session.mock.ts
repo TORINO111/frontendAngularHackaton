@@ -5,15 +5,15 @@ import { MOCK_COURS } from "./cours.mock"
 export const MOCK_SESSION: Session[] = [
     {
         id: 1,
-        heureDebut: new Date("2024-05-27T08:00:00"),
-        heureFin: new Date("2024-05-27T12:30:00"),
-        cours_id: MOCK_COURS[0].id
+        heureDebut: "2024-05-27T08:00:00",
+        heureFin: "2024-05-27T12:30:00",
+        coursId: MOCK_COURS[0].id
     },
     {
         id: 2,
-        heureDebut: new Date("2024-05-27T13:00:00"),
-        heureFin: new Date("2024-05-27T17:00:00"),
-        cours_id: MOCK_COURS[2].id
+        heureDebut: "2024-05-27T13:00:00",
+        heureFin: "2024-05-27T17:00:00",
+        coursId: MOCK_COURS[2].id
     },
 
 ]
