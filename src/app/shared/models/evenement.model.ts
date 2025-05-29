@@ -28,14 +28,14 @@ export interface JustificationDetails {
 
 export interface Evenement{
     id: string | number,
-    type: Type,
-    etat: Etat,
+    type: string,
+    etat: string,
     dateDebut: string,
     heureDebut: string,
     heureFin: string,
     etudiantId: number,
-    session: Session,
-    justification?: JustificationDetails,
+    // session: Session,
+    justification?: string,
 }
 
 export interface PageResponse<T> {
@@ -56,13 +56,4 @@ export interface EvenementFiltres {
     searchTerm?: string;
     page?: number;                      // Pour la pagination
     limit?: number;                     // Nombre d'éléments par page
-}
-
-// AJOUT: Interface pour la réponse paginée du backend
-export interface PaginatedResponse<T> {
-    items: T[];
-    totalItems: number;
-    currentPage: number;
-    totalPages: number;
-    itemsPerPage: number;
 }
