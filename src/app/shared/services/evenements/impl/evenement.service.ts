@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EvenementAdminView, EvenementFiltres, PaginatedResponse, StatutJustificationApp } from '../../../models/evenement.model';
+import { Evenement, PageResponse } from '../../../models/evenement.model';
 import { IEvenementService } from '../IEvenementService';
-import { MOCK_EVENEMENTS } from '../../../mock/mock-data';
 import { environment } from '../../../../../environments/environment.prod';
 
 
@@ -16,24 +15,24 @@ export class EvenementService implements IEvenementService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEvenements(filtres?: EvenementFiltres): Observable<PaginatedResponse<EvenementAdminView>> {
-    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences`);
+  getEvenements(): Observable<PageResponse<Evenement>> {
+    return this.httpClient.get<PageResponse<Evenement>>(`${environment.apiUrl}/absences/v1`);
   }
 
-  getEvenementsByEtudiantID(etudiantId: string | number): Observable<PaginatedResponse<EvenementAdminView>> {
-    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences/etudiant/${etudiantId}`);
+  getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
+    return this.httpClient.get<PageResponse<Evenement>>(`${environment.apiUrl}/absences/etudiant/${etudiantId}`);
   }
   
   validerJustification(absenceId: string | number ): Observable<void> {
     return this.httpClient.put<void>(`${environment.apiUrl}/absences/valider/${absenceId}`, {});
   }
 
-  getEvenementsByEtat(etat: string): Observable<PaginatedResponse<EvenementAdminView>> {
-    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences/${etat}`);
+  getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
+    return this.httpClient.get<PageResponse<Evenement>>(`${environment.apiUrl}/absences/${etat}`);
   }
 
-  getEvenementsByType(type: string): Observable<PaginatedResponse<EvenementAdminView>> {
-    return this.httpClient.get<PaginatedResponse<EvenementAdminView>>(`${environment.apiUrl}/absences/${type}`);
+  getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
+    return this.httpClient.get<PageResponse<Evenement>>(`${environment.apiUrl}/absences/${type}`);
   }
 
   rejeterJustification(absenceId: string | number): Observable<any> {

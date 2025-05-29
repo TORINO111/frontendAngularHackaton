@@ -1,17 +1,17 @@
 import { Observable } from 'rxjs';
-import { EvenementAdminView, EvenementFiltres, PaginatedResponse } from '../../models/evenement.model';
+import { Evenement, EvenementFiltres, PageResponse } from '../../models/evenement.model';
 
 export interface IEvenementService {
     
-    getEvenements(filtres?: EvenementFiltres):Observable <PaginatedResponse<EvenementAdminView>>;
+    getEvenements():Observable <PageResponse<Evenement>>;
 
-    // getEvenementByID(evenementId: string | number): Observable<EvenementAdminView>;
+    // getEvenementByID(evenementId: string | number): Observable<Evenement>;
 
-    getEvenementsByEtudiantID(etudiantId: number): Observable<PaginatedResponse<EvenementAdminView>>;
+    getEvenementsByEtudiantID(etudiantId: number): Observable<PageResponse<Evenement>>;
 
-    getEvenementsByEtat(etat: string): Observable<PaginatedResponse<EvenementAdminView>>;
+    getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>>;
 
-    getEvenementsByType(type: string): Observable<PaginatedResponse<EvenementAdminView>>;
+    getEvenementsByType(type: string): Observable<PageResponse<Evenement>>;
     
     validerJustification(absenceId: string | number): Observable<void>;
 

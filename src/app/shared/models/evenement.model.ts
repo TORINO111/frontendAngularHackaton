@@ -1,7 +1,6 @@
 import { Session } from "./session.model";
-export type TypeEvenementApi = 'ABSENCE' | 'RETARD';
-export type StatutJustificationApp = 'EN_ATTENTE' | 'VALIDEE' | 'REJETEE' | 'NON_JUSTIFIEE';
-export type StatutJustificationFiltre = StatutJustificationApp | 'TOUS';
+export type Type = 'ABSENCE' | 'RETARD';
+export type Etat = 'JUSTIFIE' | 'NOJUSTIFIE';
 
 export interface EtudiantInfo {
     id: string | number;
@@ -24,19 +23,27 @@ export interface JustificationDetails {
     motifSoumis: string;
     pieceJointeUrl?: string;
     dateSoumission: string;
-    statut: StatutJustificationApp;
     commentaireAdmin?: string;
 }
 
-export interface EvenementAdminView {
-    id: string | number;
-    type: TypeEvenementApi;
-    date: string;
-    heureDebut: string;
-    heureFin: string;
-    etudiant: EtudiantInfo;
-    session: Session;
-    justification?: JustificationDetails;
+export interface Evenement{
+    id: string | number,
+    type: Type,
+    etat: Etat,
+    dateDebut: string,
+    heureDebut: string,
+    heureFin: string,
+    etudiantId: number,
+    session: Session,
+    justification?: JustificationDetails,
+}
+
+export interface PageResponse<T> {
+    data: T[];
+    totalPages: number;
+    totalItems: number;
+    currentPage: number;
+    message: string;
 }
 
 export interface LookupItem {
@@ -47,7 +54,6 @@ export interface LookupItem {
 // MODIFICATION: Ajout des filtres de pagination et de statut
 export interface EvenementFiltres {
     searchTerm?: string;
-    statut?: StatutJustificationFiltre; // Filtre par statut
     page?: number;                      // Pour la pagination
     limit?: number;                     // Nombre d'éléments par page
 }
