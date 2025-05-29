@@ -7,10 +7,10 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { AdminGuard } from './guards/admin/admin.guard';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: '', redirectTo: 'evenements', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
 
-    { path: 'evenements', component: EvenementListComponent, canActivate: [AuthGuard, AdminGuard] },
+    { path: 'evenements', component: EvenementListComponent, }, //canActivate: [AuthGuard, AdminGuard] },
     { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
 
     { path: '**', component: NotFoundComponent }
