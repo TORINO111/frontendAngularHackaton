@@ -34,7 +34,6 @@ export interface Evenement{
     heureDebut: string,
     heureFin: string,
     etudiantId: number,
-    // session: Session,
     justification?: string,
 }
 

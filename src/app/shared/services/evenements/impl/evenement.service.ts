@@ -15,9 +15,14 @@ export class EvenementService implements IEvenementService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEvenements(): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${environment.apiUrl}/absences`);
-  }
+getEvenements(): Observable<PageResponse<Evenement>> {
+  return this.httpClient.get<PageResponse<Evenement>>(
+    `${environment.apiUrl}/absences`,
+    {
+      withCredentials: true
+    }
+  );
+}
 
   getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
     return this.httpClient.get<PageResponse<Evenement>>(`${environment.apiUrl}/absences/etudiant/${etudiantId}`);
