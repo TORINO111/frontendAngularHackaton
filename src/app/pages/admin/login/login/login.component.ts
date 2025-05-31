@@ -14,10 +14,9 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
 
   loginForm: FormGroup;
-  authService = inject(AuthenticationService); // Injectez l'AuthenticationService
   messageSucces: string = '';
   
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthenticationService) {
 
     this.loginForm = this.fb.group({
       login: ['', Validators.required],
