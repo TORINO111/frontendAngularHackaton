@@ -8,11 +8,11 @@ import { AdminGuard } from './guards/admin/admin.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
+    { path: '/login', component: LoginComponent },
 
-    { path: 'evenements', component: EvenementListComponent, }, //canActivate: [AuthGuard, AdminGuard] },
+    { path: '/evenements', component: EvenementListComponent, }, //canActivate: [AuthGuard, AdminGuard] },
     // { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
-    { path: 'evenementDetail', component: EvenementDetailComponent},
+    { path: '/evenementDetail', component: EvenementDetailComponent},
 
     { path: '**', component: NotFoundComponent }
 ];
