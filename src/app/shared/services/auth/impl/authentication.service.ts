@@ -47,6 +47,7 @@ export class AuthenticationService implements IAuthService {
       tap(response => {
         if (response.success && response.user) {
           this.userStore.setUser(response.user);
+          this.router.navigate(['/evenements']);
         }
       }),
       catchError(() => {
