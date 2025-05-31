@@ -1,32 +1,42 @@
 <div class="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-    <!-- Sidebar premium -->
     <div class="w-64 bg-gradient-to-b from-[#4A3B2F] to-[#33271e] p-4 flex flex-col shadow-xl z-10">
-        <!-- Logo avec effet de profondeur -->
         <div class="flex justify-center mt-4">
-        <div class="w-20 h-20 rounded-xl bg-[#2a1f17] flex items-center justify-center shadow-inner border border-[#E69B3A]/20">
-            <img src="assets/images/logo-ism.png" alt="Logo ISM" class="w-14 h-14 filter drop-shadow-lg">
-        </div>
-        </div>
-        
-        <!-- Sélecteur d'année avec effet de relief -->
-        <div class="mt-6 flex justify-center">
-        <div class="bg-gradient-to-r from-[#5a4a3d] to-[#3d3127] text-[#f0d6b4] px-4 py-2 rounded-full text-sm font-medium shadow-md border border-[#E69B3A]/10">
-            Année 2024 - 2025
-        </div>
-        </div>
-        
-        <!-- Menu Absences avec effet de lumière -->
-        <div class="mt-8 bg-gradient-to-r from-[#E69B3A]/20 to-[#E69B3A]/10 rounded-lg py-3 px-4 flex items-center border border-[#E69B3A]/30 shadow-md backdrop-blur-sm">
-        <svg class="w-6 h-6 text-[#f0d6b4] mr-3 filter drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-        </svg>
-        <span class="text-[#f0d6b4] font-medium tracking-wide">Absences</span>
-        <div class="ml-auto w-2 h-2 bg-[#E69B3A] rounded-full animate-pulse"></div>
+            <div class="w-20 h-20 rounded-xl bg-[#2a1f17] flex items-center justify-center shadow-inner border border-[#E69B3A]/20">
+                <img src="assets/images/logo-ism.png" alt="Logo ISM" class="w-14 h-14 filter drop-shadow-lg">
+            </div>
         </div>
 
-        <!-- Effet de décor -->
+        <div class="mt-6 flex justify-center">
+            <div class="bg-gradient-to-r from-[#5a4a3d] to-[#3d3127] text-[#f0d6b4] px-4 py-2 rounded-full text-sm font-medium shadow-md border border-[#E69B3A]/10">
+                Année 2024 - 2025
+            </div>
+        </div>
+
+        <div class="mt-6 text-center">
+            <p class="font-medium text-white">{{ prenom }} {{ nom }}</p>
+            <p class="text-sm text-gray-400">Admin</p>
+        </div>
+
+        <div class="mt-8 bg-gradient-to-r from-[#E69B3A]/20 to-[#E69B3A]/10 rounded-lg py-3 px-4 flex items-center border border-[#E69B3A]/30 shadow-md backdrop-blur-sm">
+            <svg class="w-6 h-6 text-[#f0d6b4] mr-3 filter drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <span class="text-[#f0d6b4] font-medium tracking-wide">Absences</span>
+            <div class="ml-auto w-2 h-2 bg-[#E69B3A] rounded-full animate-pulse"></div>
+        </div>
+
         <div class="mt-auto mb-4 text-center">
-        <div class="h-px bg-gradient-to-r from-transparent via-[#E69B3A]/30 to-transparent my-6"></div>
-        <p class="text-xs text-[#f0d6b4]/60 tracking-wider">ADMIN PANEL v2.1</p>
+            <div class="h-px bg-gradient-to-r from-transparent via-[#E69B3A]/30 to-transparent my-6"></div>
+            <button
+                class="bg-gradient-to-r from-[#E69B3A]/20 to-[#E69B3A]/10 rounded-lg py-3 px-4 flex items-center border border-[#E69B3A]/30 shadow-md backdrop-blur-sm cursor-pointer w-full justify-center"
+                (click)="logout()"
+            >
+                <svg class="w-6 h-6 text-red-600 mr-3 filter drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                <span class="text-red-600 font-medium tracking-wide">Déconnexion</span>
+                <div class="ml-auto w-2 h-2 bg-[#E69B3A] rounded-full animate-pulse"></div>
+            </button>
+        </div>
     </div>
 </div>

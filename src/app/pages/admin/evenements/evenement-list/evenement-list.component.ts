@@ -4,9 +4,11 @@ import { SidebarComponent } from "../../../../shared/components/layout/sidebar/s
 import { Evenement, PageResponse } from '../../../../shared/models/evenement.model';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
 import { HeaderComponent } from "../../../../shared/components/layout/header/header.component";
+import { HighlightDirective } from '../../../../directives/highlight.directive';
+
 @Component({
   selector: 'app-evenement-list',
-  imports: [CommonModule, SidebarComponent, HeaderComponent],
+  imports: [CommonModule, SidebarComponent, HighlightDirective],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less'
 })
