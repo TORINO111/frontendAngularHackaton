@@ -25,8 +25,8 @@ export class LoginComponent {
 
   login(): void {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.authService.login(username, password).subscribe({
+      const { login, password } = this.loginForm.value;
+      this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.success) {
             // La navigation vers /evenements est déjà gérée dans AuthService

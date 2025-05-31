@@ -41,9 +41,9 @@ export class AuthenticationService implements IAuthService {
     return this.isAuthenticated() && this.userStore.user()?.role === 'Admin';
   }
 
-  login(username: string, password: string): Observable<LoginResponse> {
+  login(login: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${environment.apiUrl}/web/auth/login`, {
-      username,
+      login,
       password
     }).pipe(
       tap(response => {
