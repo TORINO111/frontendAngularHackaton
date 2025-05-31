@@ -32,7 +32,9 @@ export class LoginComponent {
           if (response.user) {
             console.log('Router instance:', this.router);
             this.messageSucces = 'Connexion réussie ! Redirection en cours...';
-            this.router.navigate(['/evenements']);
+            this.router.navigate(['/evenements']).then(success => {
+              console.log('Navigation réussie ?', success);
+            });
           } else {
             this.messageSucces = response.message || 'Échec de la connexion.';
           }
