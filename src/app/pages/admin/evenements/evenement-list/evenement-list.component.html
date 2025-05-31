@@ -93,6 +93,9 @@
 
     <!-- Contenu -->
     <main class="flex-1 overflow-y-auto p-6">
+      <div *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
+        <p>Aucune absence enregistrée.</p>
+      </div>
       <!-- Titre et compteur -->
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Absences</h1>
@@ -140,13 +143,22 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <!-- Chargement -->
+            <!-- Chargement
             <tr *ngIf="evenements.length === 0 && !pageResponse">
               <td colspan="8" class="px-6 py-4 text-center">
                 <p>Chargement des absences...</p>
               </td>
-            </tr>
-            
+            </tr> -->
+            <tr *ngFor="let evenement of evenements">
+                  <td>{{ evenement.id }}</td>
+                  <td>{{ evenement.dateDebut }}</td>
+                  <td>{{ evenement.heureDebut }}</td>
+                  <td>{{ evenement.heureFin }}</td>
+                  <td>{{ evenement.justification }}</td>
+                  <td>{{ evenement.etat }}</td>
+                  <td>{{ evenement.type }}</td>
+                  <td>{{ evenement.etudiantId }}</td>
+                </tr>
             <!-- Aucune donnée -->
             <tr *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
               <td colspan="8" class="px-6 py-4 text-center">
@@ -210,22 +222,12 @@
             1 à 8 absences pour {{ totalItems }}
           </p>
         </div>
-        <div class="flex items-center space-x-2">
-          <button class="p-2 border border-gray-300 rounded-md bg-white text-gray-500 hover:bg-gray-50">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-          </button>
-          <button class="px-4 py-2 border border-gray-300 rounded-md bg-[#4A3B2F] text-white">1</button>
-          <button class="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50">2</button>
-          <button class="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50">...</button>
-          <button class="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50">10</button>
-          <button class="p-2 border border-gray-300 rounded-md bg-white text-gray-500 hover:bg-gray-50">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-          </button>
-        </div>
+        <!-- Pagination-->
+          <div *ngIf="totalPages > 1">
+              <div class="pagination">
+                <p>Page {{ currentPage + 1 }} sur {{ totalPages }} ({{ totalItems }} éléments au total)</p>
+                </div>
+            </div>
       </div>
     </main>
   </div>
