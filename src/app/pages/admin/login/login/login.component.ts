@@ -30,9 +30,9 @@ export class LoginComponent {
       this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.success) {
-            // La navigation vers /evenements est déjà gérée dans AuthService
+              this.router.navigateByUrl('/evenements')
           } else {
-            this.errorMessage = response.message || 'Échec de la connexion.';
+            this.errorMessage = 'Échec de la connexion.';
           }
         },
         error: (error) => {
@@ -45,7 +45,6 @@ export class LoginComponent {
     }
   }
 
-  // Vous pouvez accéder aux informations de l'utilisateur (en lecture seule) ici si nécessaire
   get currentUser() {
     return this.authService.getCurrentUserSignal();
   }
