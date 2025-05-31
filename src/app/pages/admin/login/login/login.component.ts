@@ -31,9 +31,7 @@ export class LoginComponent {
         next: (response) => {
           if (response.success) {
             this.errorMessage = 'Connexion réussie ! Redirection en cours...';
-            setTimeout(() => {
-              this.router.navigate(['/evenements']);
-            }, 1000);
+            this.router.navigate(['/evenements']);
           } else {
             this.errorMessage = response.message || 'Échec de la connexion.';
           }
