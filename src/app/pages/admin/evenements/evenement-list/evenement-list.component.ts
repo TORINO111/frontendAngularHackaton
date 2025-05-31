@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
 import { Evenement, PageResponse } from '../../../../shared/models/evenement.model';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
+import { HeaderComponent } from "../../../../shared/components/layout/header/header.component";
 @Component({
   selector: 'app-evenement-list',
-  imports: [CommonModule, SidebarComponent],
+  imports: [CommonModule, SidebarComponent, HeaderComponent],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less'
 })

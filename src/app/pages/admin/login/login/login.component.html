@@ -1,11 +1,7 @@
-<div class="min-h-screen flex">
+<div class="min-h-screen flex" (submit)="login()">
     <!-- Section gauche (60%) -->
     <div class="flex-1 flex flex-col bg-white">
-        <!-- Logo -->
-        <div class="p-6">
-        <img src="assets/images/logo-ism.png" alt="Logo ISM" class="w-16 h-16">
-        </div>
-
+        <app-logo></app-logo>
         <!-- Formulaire centré -->
         <div class="flex-grow flex items-center justify-center p-4">
         <form class="w-full max-w-md">
