@@ -30,7 +30,10 @@ export class LoginComponent {
       this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.success) {
+            this.errorMessage = 'Connexion réussie ! Redirection en cours...';
+            setTimeout(() => {
               this.router.navigate(['/evenements']);
+            }, 1000);
           } else {
             this.errorMessage = response.message || 'Échec de la connexion.';
           }
