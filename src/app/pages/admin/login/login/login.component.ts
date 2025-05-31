@@ -32,7 +32,7 @@ export class LoginComponent {
           if (response.success) {
               this.router.navigateByUrl('/evenements')
           } else {
-            this.errorMessage = 'Échec de la connexion.';
+            this.errorMessage = response.message || 'Échec de la connexion.';
           }
         },
         error: (error) => {

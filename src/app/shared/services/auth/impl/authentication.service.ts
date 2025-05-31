@@ -47,8 +47,8 @@ export class AuthenticationService implements IAuthService {
       password
     }).pipe(
       tap(response => {
-        if (response.success && response.data) {
-          this.userStore.setUser(response.data);
+        if (response.success && response.user) {
+          this.userStore.setUser(response.user);
           this.router.navigate(['/evenements']);
         }
       }),
@@ -56,7 +56,7 @@ export class AuthenticationService implements IAuthService {
         return of({
           message: 'ERROR: Login failed',
           success: false,
-          data: null
+          user: null
         });
       })
     );
