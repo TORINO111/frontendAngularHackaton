@@ -45,6 +45,5 @@ export interface Admin extends User{
 
 export interface LoginResponse {
     message: string;
-    success: boolean;
     user: User | null;
 }
