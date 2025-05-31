@@ -15,9 +15,10 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   authService = inject(AuthenticationService); // Injectez l'AuthenticationService
-  errorMessage: string = '';
-
+  messageSucces: string = '';
+  
   constructor(private fb: FormBuilder, private router: Router) {
+
     this.loginForm = this.fb.group({
       login: ['', Validators.required],
       password: ['', Validators.required]
@@ -30,19 +31,19 @@ export class LoginComponent {
       this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.success) {
-            this.errorMessage = 'Connexion réussie ! Redirection en cours...';
+            this.messageSucces = 'Connexion réussie ! Redirection en cours...';
             this.router.navigate(['/evenements']);
           } else {
-            this.errorMessage = response.message || 'Échec de la connexion.';
+            this.messageSucces = response.message || 'Échec de la connexion.';
           }
         },
         error: (error) => {
           console.error('Erreur de connexion:', error);
-          this.errorMessage = 'Une erreur s\'est produite lors de la connexion.';
+          this.messageSucces = 'Une erreur s\'est produite lors de la connexion.';
         }
       });
     } else {
-      this.errorMessage = 'Veuillez remplir tous les champs.';
+      this.messageSucces = 'Veuillez remplir tous les champs.';
     }
   }
 
