@@ -30,6 +30,7 @@ export class LoginComponent {
       this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.user) {
+            console.log('Connexion réussie, redirection vers /evenements');
             this.messageSucces = 'Connexion réussie ! Redirection en cours...';
             this.router.navigate(['/evenements']);
           } else {
