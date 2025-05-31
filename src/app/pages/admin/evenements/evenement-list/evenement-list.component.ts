@@ -1,9 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { environment } from '../../../../../environments/environment.prod';
+import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
 import { Evenement, PageResponse } from '../../../../shared/models/evenement.model';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
-import { CommonModule } from '@angular/common';
-import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
 @Component({
   selector: 'app-evenement-list',
   imports: [CommonModule, SidebarComponent],
@@ -21,24 +20,34 @@ export class EvenementListComponent {
   constructor(private evenementService: EvenementService) {}
 
   ngOnInit(): void {
-    this.loadEvenements();
+    this.loadPage(this.currentPage);
   }
 
-  loadEvenements(): void {
-    this.evenementService.getEvenements().subscribe(
-      (response) => {
-        this.pageResponse = response;
-        this.evenements = response.data;
-        this.currentPage = response.currentPage;
-        this.totalPages = response.totalPages;
-        this.totalItems = response.totalItems;
-        this.message = response.message;
-        console.log('Données des événements:', this.evenements);
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des événements:', error);
-        // Gérez l'erreur ici (affichage d'un message à l'utilisateur, etc.)
-      }
-    );
+  goToPage(page: number): void {
+  if (page >= 0 && page < this.totalPages) {
+    this.currentPage = page;
+    this.loadPage(page);
+    }
   }
+
+  getPages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i);
+  }
+
+  loadPage(page: number): void {
+  this.evenementService.getEvenements(page).subscribe(
+    (response) => {
+      this.pageResponse = response;
+      this.evenements = response.data;
+      this.currentPage = response.currentPage;
+      this.totalPages = response.totalPages;
+      this.totalItems = response.totalItems;
+      this.message = response.message;
+    },
+    (error) => {
+      console.error('Erreur lors du chargement de la page:', error);
+    });
+  }
+
+
 }

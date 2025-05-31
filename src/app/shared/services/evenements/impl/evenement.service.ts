@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Evenement, PageResponse } from '../../../models/evenement.model';
@@ -16,11 +16,17 @@ export class EvenementService implements IEvenementService {
 
   constructor(private httpClient: HttpClient) { }
 
-getEvenements(): Observable<PageResponse<Evenement>> {
-  return this.httpClient.get<PageResponse<Evenement>>(
-    `${this.apiUrl}/absences`,
-  );
-}
+  getEvenements(page?: number, size?: number): Observable<PageResponse<Evenement>> {
+    let params = new HttpParams();
+    if (page !== undefined) params = params.set('page', page);
+    if (size !== undefined) params = params.set('size', size);
+
+    return this.httpClient.get<PageResponse<Evenement>>(
+      `${this.apiUrl}/absences`,
+      { params }
+    );
+  }
+
 
   getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
     return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/etudiant/${etudiantId}`);

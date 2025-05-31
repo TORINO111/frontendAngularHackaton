@@ -93,6 +93,7 @@
 
     <!-- Contenu -->
     <main class="flex-1 overflow-y-auto p-6">
+      
       <div *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
         <p>Aucune absence enregistrée.</p>
       </div>
@@ -214,20 +215,33 @@
       
       <!-- Pagination -->
       <div class="mt-6 flex items-center justify-between">
-        <div>
-          <p class="text-sm text-gray-700">
-            <span class="font-medium">Absences/page 8</span>
-          </p>
-          <p class="text-sm text-gray-500">
-            1 à 8 absences pour {{ totalItems }}
-          </p>
+      <!-- Pagination -->
+      <div *ngIf="totalPages > 1" class="pagination-container">
+        <p>Page {{ currentPage + 1 }} sur {{ totalPages }} ({{ totalItems }} éléments au total)</p>
+        
+        <div class="pagination-controls">
+          <!-- Précédent -->
+          <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">
+            « Précédent
+          </button>
+
+          <!-- Pages -->
+          <ng-container *ngFor="let page of getPages()">
+            <button
+              (click)="goToPage(page)"
+              [class.active]="page === currentPage"
+            >
+              {{ page + 1 }}
+            </button>
+          </ng-container>
+
+          <!-- Suivant -->
+          <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages - 1">
+            Suivant »
+          </button>
         </div>
-        <!-- Pagination-->
-          <div *ngIf="totalPages > 1">
-              <div class="pagination">
-                <p>Page {{ currentPage + 1 }} sur {{ totalPages }} ({{ totalItems }} éléments au total)</p>
-                </div>
-            </div>
+      </div>
+        
       </div>
     </main>
   </div>
