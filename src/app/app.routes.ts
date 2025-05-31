@@ -4,13 +4,13 @@ import { LoginComponent } from './pages/admin/login/login/login.component';
 import { EvenementDetailComponent } from './pages/admin/evenements/evenement-detail/evenement-detail.component';
 import { NotFoundComponent } from './pages/admin/not-found/not-found.component';
 import { AuthGuard } from './guards/auth/auth.guard';
-import { AdminGuard } from './guards/admin/admin.guard';
+import { EventResolver } from './resolvers/event.resolver';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
 
-    { path: 'evenements', component: EvenementListComponent, canActivate: [AuthGuard] },
+    { path: 'evenements', component: EvenementListComponent, canActivate: [AuthGuard], resolve: { evenementsPage: EventResolver } },
     // { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
     { path: 'evenementDetail', component: EvenementDetailComponent, canActivate: [AuthGuard] },
 
