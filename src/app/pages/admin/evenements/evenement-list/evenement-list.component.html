@@ -1,19 +1,58 @@
-<div class="max-w-md mx-auto mt-4 p-4 bg-white shadow rounded-lg">
-    <h2 class="text-lg font-semibold mb-2">Derniers événements</h2>
-
-    <ul class="divide-y divide-gray-200">
-        <li *ngFor="let evt of evenements" class="py-2">
-        <div class="flex justify-between items-center">
-            <div>
-            <p class="text-sm font-medium text-gray-800">{{ evt.type }}</p>
-            <p class="text-xs text-gray-500">
-                {{ evt.dateDebut }} | {{ evt.heureDebut }} → {{ evt.heureFin }}
-            </p>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <h4 class="card-title local-title">Liste des Absences</h4>
+            <p class="card-category">Voici la liste de toutes les absences enregistrées</p>
+          </div>
+          <div class="card-body table-responsive">
+            <div *ngIf="message">
+              <p>{{ message }}</p>
             </div>
-            <span class="text-xs px-2 py-1 rounded-full">
-            {{ evt.etat }}
-            </span>
+
+            <div *ngIf="evenements.length === 0 && !pageResponse">
+                <p>Chargement des absences...</p>
+            </div>
+
+            <div *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
+              <p>Aucune absence enregistrée.</p>
+            </div>
+
+            <table class="table table-hover" *ngIf="evenements.length > 0">
+              <thead class="text-warning">
+                <th>ID</th>
+                <th>Date Début</th>
+                <th>Heure Début</th>
+                <th>Heure Fin</th>
+                <th>Justification</th>
+                <th>État</th>
+                <th>Type</th>
+                <th>ID Étudiant</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let evenement of evenements">
+                  <td>{{ evenement.id }}</td>
+                  <td>{{ evenement.dateDebut }}</td>
+                  <td>{{ evenement.heureDebut }}</td>
+                  <td>{{ evenement.heureFin }}</td>
+                  <td>{{ evenement.justification }}</td>
+                  <td>{{ evenement.etat }}</td>
+                  <td>{{ evenement.type }}</td>
+                  <td>{{ evenement.etudiantId }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div *ngIf="totalPages > 1">
+              <div class="pagination">
+                <p>Page {{ currentPage + 1 }} sur {{ totalPages }} ({{ totalItems }} éléments au total)</p>
+                </div>
+            </div>
+          </div>
         </div>
-        </li>
-    </ul>
+      </div>
+    </div>
+  </div>
 </div>

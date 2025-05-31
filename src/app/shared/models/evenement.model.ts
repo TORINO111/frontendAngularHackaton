@@ -34,15 +34,15 @@ export interface Evenement{
     heureDebut: string,
     heureFin: string,
     etudiantId: number,
-    justification?: string,
+    justification: string,
 }
 
 export interface PageResponse<T> {
+    totalItems: number;
     data: T[];
     totalPages: number;
-    totalItems: number;
-    currentPage: number;
     message: string;
+    currentPage: number;
 }
 
 export interface LookupItem {
