@@ -11,8 +11,9 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
 
     { path: 'evenements', component: EvenementListComponent, }, //canActivate: [AuthGuard, AdminGuard] },
-    { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
-
+    // { path: 'evenementDetail', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
+    { path: 'evenementDetail', component: EvenementDetailComponent },
+// evenement/:id
     { path: '**', component: NotFoundComponent }
 ];
 
