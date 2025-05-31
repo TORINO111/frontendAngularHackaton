@@ -1,4 +1,4 @@
-<div class="content">
+<!-- <div class="content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -54,5 +54,179 @@
         </div>
       </div>
     </div>
+  </div>
+</div> -->
+
+<div class="flex h-screen bg-gray-50">
+  <app-sidebar></app-sidebar>
+
+  <!-- Contenu principal -->
+  <div class="flex-1 flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow py-4 px-6">
+      <div class="flex items-center justify-between">
+        <!-- Recherche -->
+        <div class="relative w-80">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400">
+        </div>
+        
+        <!-- Utilisateur -->
+        <div class="flex items-center space-x-4">
+          <a href="#" class="text-red-600">Deconnexion</a>
+          <div class="text-right">
+            <p class="font-medium text-gray-800">Awa Niang</p>
+            <p class="text-sm text-gray-500">Admin</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenu -->
+    <main class="flex-1 overflow-y-auto p-6">
+      <!-- Titre et compteur -->
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Absences</h1>
+        <span class="bg-[#4A3B2F] text-white px-3 py-1 rounded-full text-sm">180 apprenants</span>
+      </div>
+      
+      <!-- Filtres -->
+      <div class="flex justify-between mb-6">
+        <div class="relative w-80">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <input type="text" placeholder="Rechercher" class="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400">
+        </div>
+        
+        <div class="relative">
+          <select class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400">
+            <option>Filtre par etat</option>
+            <option>Justifié</option>
+            <option>Non justifié</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tableau -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full">
+          <thead class="bg-[#4A3B2F]">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider rounded-tl-lg">Photo</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Marticule</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Enseignant</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Date et Heure</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Classe</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Cours</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Etat</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-[#E69B3A] uppercase tracking-wider rounded-tr-lg">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <!-- Chargement -->
+            <tr *ngIf="evenements.length === 0 && !pageResponse">
+              <td colspan="8" class="px-6 py-4 text-center">
+                <p>Chargement des absences...</p>
+              </td>
+            </tr>
+            
+            <!-- Aucune donnée -->
+            <tr *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
+              <td colspan="8" class="px-6 py-4 text-center">
+                <p>Aucune absence enregistrée.</p>
+              </td>
+            </tr>
+            
+            <!-- Lignes de données -->
+            <tr *ngFor="let absence of evenements" class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                  <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {{ absence.etudiantId }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                Seydina Mouhammad Diop
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                {{ absence.dateDebut | date:'dd/MM/yyyy' }} - {{ absence.heureDebut }}/{{ absence.heureFin }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                L3GLRS
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                FILUTER
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span *ngIf="absence.etat === 'JUSTIFIE'" 
+                      class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  Justifié
+                </span>
+                <span *ngIf="absence.etat === 'NON_JUSTIFIE'" 
+                      class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                  Non Justifié
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-red-600">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="mt-6 flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            <span class="font-medium">Absences/page 8</span>
+          </p>
+          <p class="text-sm text-gray-500">
+            1 à 8 absences pour {{ totalItems }}
+          </p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button class="p-2 border border-gray-300 rounded-md bg-white text-gray-500 hover:bg-gray-50">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+          <button class="px-4 py-2 border border-gray-300 rounded-md bg-[#4A3B2F] text-white">1</button>
+          <button class="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50">2</button>
+          <button class="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50">...</button>
+          <button class="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50">10</button>
+          <button class="p-2 border border-gray-300 rounded-md bg-white text-gray-500 hover:bg-gray-50">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
   </div>
 </div>

@@ -3,9 +3,10 @@ import { environment } from '../../../../../environments/environment.prod';
 import { Evenement, PageResponse } from '../../../../shared/models/evenement.model';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
 import { CommonModule } from '@angular/common';
+import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
 @Component({
   selector: 'app-evenement-list',
-  imports: [CommonModule],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less'
 })
