@@ -12,9 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthenticationService implements IAuthService {
 
-  private userStore = inject(UserStore);
-
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private userStore: UserStore) { }
 
   getCurrentUser(): User | null {
     return this.userStore.user();

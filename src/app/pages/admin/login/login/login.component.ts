@@ -30,7 +30,7 @@ export class LoginComponent {
       this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.success) {
-              this.router.navigateByUrl('/evenements')
+              this.router.navigate(['/evenements']);
           } else {
             this.errorMessage = response.message || 'Échec de la connexion.';
           }
