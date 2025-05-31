@@ -29,7 +29,7 @@ export class LoginComponent {
       const { login, password } = this.loginForm.value;
       this.authService.login(login, password).subscribe({
         next: (response) => {
-          if (response.success) {
+          if (response.user) {
             this.messageSucces = 'Connexion réussie ! Redirection en cours...';
             this.router.navigate(['/evenements']);
           } else {
