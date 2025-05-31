@@ -111,7 +111,7 @@
       </div>
 
       <!-- Tableau -->
-      <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="bg-white rounded-lg shadow ">
         <table class="min-w-full">
           <thead class="bg-[#4A3B2F]">
             <tr>
@@ -146,12 +146,11 @@
                 </div>
               </td>
               <td>{{ evenement.etudiant.matricule }}</td>
-              <td>{{ evenement.etudiant.prenom }} {{ evenement.etudiant.nom
-                }}</td>
+              <td>{{ evenement.etudiant.prenom }} {{ evenement.etudiant.nom }}</td>
               <td>{{ evenement.etudiant.classe.niveau }} {{
                 evenement.etudiant.classe.filiere }}</td>
               <td>{{ evenement.dateDebut }}</td>
-              <td>{{ evenement.heureDebut }} + "-" {{ evenement.heureFin }}</td>
+              <td>{{ evenement.heureDebut }}-{{ evenement.heureFin }}</td>
               <td>Cours</td>
               <td>{{ evenement.etat }}</td>
               <td>

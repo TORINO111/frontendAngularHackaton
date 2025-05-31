@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
 import { Evenement, PageResponse } from '../../../../shared/models/evenement.model';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
 import { HeaderComponent } from "../../../../shared/components/layout/header/header.component";
 import { HighlightDirective } from '../../../../directives/highlight.directive';
+import { AuthenticationService } from '../../../../shared/services/auth/impl/authentication.service';
 
 @Component({
   selector: 'app-evenement-list',
@@ -13,6 +14,8 @@ import { HighlightDirective } from '../../../../directives/highlight.directive';
   styleUrl: './evenement-list.component.less'
 })
 export class EvenementListComponent {
+  authService = inject(AuthenticationService);
+
   pageResponse: PageResponse<Evenement> | undefined;
   evenements: Evenement[] = [];
   totalPages: number = 0;

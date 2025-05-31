@@ -1,38 +1,29 @@
-<div class="min-h-screen flex" (submit)="login()">
-    <!-- Section gauche (60%) -->
+<div class="min-h-screen flex">
     <div class="flex-1 flex flex-col bg-white">
         <app-logo></app-logo>
-        <!-- Formulaire centré -->
         <div class="flex-grow flex items-center justify-center p-4">
-        <form class="w-full max-w-md">
-            <!-- Identifiant -->
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-full max-w-md">
             <div class="mb-5">
-            <label for="identifiant" class="block mb-2 text-sm font-medium text-gray-900">Login</label>
-            <input type="text" id="identifiant"
+            <label for="login" class="block mb-2 text-sm font-medium text-gray-900">Login</label>
+            <input type="text" id="login" formControlName="login"
                     class="w-full p-2.5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#E69B3A] focus:border-[#E69B3A] block"
                     placeholder="Veuillez saisir votre login" required>
             </div>
 
-            <!-- Mot de passe -->
             <div class="mb-3">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Mot de passe</label>
-            <input type="password" id="password"
+            <input type="password" id="password" formControlName="password"
                     class="w-full p-2.5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#E69B3A] focus:border-[#E69B3A] block"
-                    placeholder="Veuillez saisir votre mot de passe" required>
+                    placeholder="Veuillez saisir votre mot de passe" autocomplete="current-password" required>
             </div>
 
-            <!-- Lien mot de passe oublié -->
-            <!-- <div class="mb-6 flex justify-end">
-            <a href="#" class="text-sm font-medium text-[#E69B3A] hover:underline">Mot de passe oublié?</a>
-            </div> -->
-
-            <!-- Bouton de connexion -->
-            <button type="submit"
+            <button type="submit" [disabled]="loginForm.invalid"
                     class="w-full text-[#E69B3A] bg-[#4A3B2F] hover:bg-[#3d3127] focus:ring-4 focus:outline-none focus:ring-[#E69B3A]/50 font-medium rounded-full text-sm px-5 py-2.5 text-center transition-colors">
             Se Connecter
             </button>
 
-            <!-- Lignes décoratives (optionnel) -->
+            <div *ngIf="errorMessage" class="mt-4 text-red-500">{{ errorMessage }}</div>
+
             <div class="mt-8 space-y-1">
             <div class="h-px bg-gray-200"></div>
             <div class="h-px bg-gray-200"></div>
@@ -41,6 +32,6 @@
         </div>
     </div>
 
-    <!-- Section droite (40%) -->
     <div class="w-2/5 bg-[#442A1B] hidden md:block"></div>
+
 </div>

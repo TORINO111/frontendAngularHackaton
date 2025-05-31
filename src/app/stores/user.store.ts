@@ -1,30 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs/operators';
 import { User } from '../shared/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserStore {
-    private user = signal<User | null>(null);
+    private _user = signal<User | null>(null);
 
     // Computed signal
     readonly userFullName = computed(() => {
-        const u = this.user();
+        const u = this._user();
         return u ? `${u.prenom} ${u.nom}` : '';
     });
 
-    // Convert signal to RxJS Observable if needed
-    readonly user$ = toObservable(this.user);
+    readonly user$ = toObservable(this._user);
+
+    readonly user = this._user.asReadonly();
 
     constructor(private http: HttpClient) {}
 
     loadUserById(id: string) {
-        this.http.get<User>(`/api/users/${id}`).subscribe(user => {
-        this.user.set(user);
-        });
+        this.http.get<User>(`/api/users/${id}`).pipe(
+        tap(user => {
+            this._user.set(user);
+        })
+        ).subscribe();
+    }
+
+    setUser(user: User | null) {
+        this._user.set(user);
     }
 
     logout() {
-        this.user.set(null);
+        this._user.set(null);
     }
 }

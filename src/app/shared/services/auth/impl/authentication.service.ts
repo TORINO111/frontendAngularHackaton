@@ -1,44 +1,55 @@
-import { Injectable, signal } from '@angular/core';
-import { AuthResponse, LoginResponse, Role, RoleEnum, User, UserCredentials } from '../../../models/user.model';
-import { BehaviorSubject, catchError, delay, Observable, of, tap, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { IAuthService } from '../IAuthService';
+import { Injectable, signal, inject } from '@angular/core';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../../../environments/environment.prod';
+import { LoginResponse, User } from '../../../models/user.model';
+import { IAuthService } from '../IAuthService';
+import { Router } from '@angular/router';
+import { UserStore } from '../../../../stores/user.store';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService implements IAuthService{
+export class AuthenticationService implements IAuthService {
 
+  private userStore = inject(UserStore);
 
-  currentUserSignal = signal<User|null>(null);
-
-  constructor(private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   getCurrentUser(): User | null {
-    return this.currentUserSignal();
+    return this.userStore.user();
+  }
+
+  getCurrentUserSignal() {
+    return this.userStore.user;
+  }
+
+  getUserFullNameSignal() {
+    return this.userStore.userFullName;
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUserSignal();
+    return !!this.userStore.user();
   }
 
   logout(): void {
-    this.currentUserSignal.set(null);
+    this.userStore.logout();
+    this.router.navigate(['/login']);
   }
 
   isAdmin(): boolean {
-    return this.isAuthenticated() && this.currentUserSignal()?.role === 'Admin';
+    return this.isAuthenticated() && this.userStore.user()?.role === 'Admin';
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${environment.apiUrl}/authentification`, {
+    return this.http.post<LoginResponse>(`${environment.apiUrl}/web/auth/login`, {
       username,
       password
     }).pipe(
       tap(response => {
         if (response.success && response.data) {
-          this.currentUserSignal.set(response.data);
+          this.userStore.setUser(response.data);
+          this.router.navigate(['/evenements']);
         }
       }),
       catchError(() => {
@@ -50,5 +61,4 @@ export class AuthenticationService implements IAuthService{
       })
     );
   }
-
 }
