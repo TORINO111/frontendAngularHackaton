@@ -153,11 +153,8 @@
               <td>{{ evenement.heureDebut }}-{{ evenement.heureFin }}</td>
               <td>Cours</td>
               <td>{{ evenement.etat }}</td>
-              <td>
-                <button
-                  [ngClass]="evenement.justification ? '...green' : '...red'">
-                  {{ evenement.justification ? 'Justifié' : 'Non justifié' }}
-                </button>
+              <td> <span [ngClass]="evenement.justification ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'">
+                  {{ evenement.justification ? 'Justifié' : 'Non justifié' }} </span>
               </td>
               <td
                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -186,9 +183,6 @@
         <div class="mt-6 flex items-center justify-between">
           <!-- Pagination -->
           <div *ngIf="totalPages > 1" class="pagination-container">
-            <p>Page {{ currentPage + 1 }} sur {{ totalPages }} ({{ totalItems }}
-              éléments au total)</p>
-
             <div class="pagination-controls">
               <!-- Précédent -->
               <button (click)="goToPage(currentPage - 1)"

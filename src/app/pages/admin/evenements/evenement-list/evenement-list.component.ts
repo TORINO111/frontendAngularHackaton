@@ -43,7 +43,7 @@ export class EvenementListComponent implements OnInit {
   }
 
   loadPage(page: number): void {
-    this.evenementService.getEvenements(page).subscribe(response => {
+      this.evenementService.getEvenements(page).subscribe(response => {
       this.loadPageFromResponse(response);
     });
   }
