@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../../shared/services/auth/impl/authentication.service';
@@ -55,3 +56,17 @@ export class LoginComponent {
     return this.authService.getUserFullNameSignal();
   }
 }
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-login',
+  imports: [],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.less'
+})
+export class LoginComponent {
+
+
+}
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4

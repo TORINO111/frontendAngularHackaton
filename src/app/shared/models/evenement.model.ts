@@ -2,6 +2,7 @@ import { Session } from "./session.model";
 export type Type = 'ABSENCE' | 'RETARD';
 export type Etat = 'JUSTIFIE' | 'NOJUSTIFIE';
 
+<<<<<<< HEAD
 export interface Classe{
     id: string;
     niveau: string;
@@ -19,6 +20,17 @@ export interface Etudiant {
     telephone: string;
     classe: Classe;
     matricule: string;
+=======
+export interface EtudiantInfo {
+    id: string | number;
+    matricule: string;
+    nom: string;
+    prenom: string;
+    photoUrl?: string;
+    classe?: string;
+    niveau?: string;
+    filiere?: string;
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
 }
 
 export interface CoursInfo {
@@ -34,11 +46,14 @@ export interface JustificationDetails {
     commentaireAdmin?: string;
 }
 
+<<<<<<< HEAD
 export interface OneEvenement{
     data:Evenement,
     message: string
 }
 
+=======
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
 export interface Evenement{
     id: string | number,
     type: string,
@@ -46,8 +61,13 @@ export interface Evenement{
     dateDebut: string,
     heureDebut: string,
     heureFin: string,
+<<<<<<< HEAD
     justification?: string,
     etudiant: Etudiant,
+=======
+    etudiantId: number,
+    justification: string,
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
 }
 
 export interface PageResponse<T> {
@@ -66,6 +86,11 @@ export interface LookupItem {
 // MODIFICATION: Ajout des filtres de pagination et de statut
 export interface EvenementFiltres {
     searchTerm?: string;
+<<<<<<< HEAD
     page?: number;
     limit?: number;
+=======
+    page?: number;                      // Pour la pagination
+    limit?: number;                     // Nombre d'éléments par page
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
 }

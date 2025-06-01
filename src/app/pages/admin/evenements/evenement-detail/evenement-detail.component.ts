@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
@@ -79,3 +80,16 @@ export class EvenementDetailComponent implements OnInit {
     }
   }
 }
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-evenement-detail',
+  imports: [],
+  templateUrl: './evenement-detail.component.html',
+  styleUrl: './evenement-detail.component.less'
+})
+export class EvenementDetailComponent {
+
+}
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4

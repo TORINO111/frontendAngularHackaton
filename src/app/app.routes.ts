@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/admin/login/login/login.component';
 import { EvenementDetailComponent } from './pages/admin/evenements/evenement-detail/evenement-detail.component';
 import { NotFoundComponent } from './pages/admin/not-found/not-found.component';
 import { AuthGuard } from './guards/auth/auth.guard';
+<<<<<<< HEAD
 import { EventResolver } from './resolvers/event.resolver';
 
 export const routes: Routes = [
@@ -14,6 +15,18 @@ export const routes: Routes = [
     // { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
     { path: 'evenementDetail/:id', component: EvenementDetailComponent, canActivate: [AuthGuard] },
 
+=======
+import { AdminGuard } from './guards/admin/admin.guard';
+
+export const routes: Routes = [
+    { path: '', redirectTo: 'evenements', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
+
+    { path: 'evenements', component: EvenementListComponent, }, //canActivate: [AuthGuard, AdminGuard] },
+    // { path: 'evenementDetail', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
+    { path: 'evenementDetail', component: EvenementDetailComponent },
+// evenement/:id
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
     { path: '**', component: NotFoundComponent }
 ];
 
