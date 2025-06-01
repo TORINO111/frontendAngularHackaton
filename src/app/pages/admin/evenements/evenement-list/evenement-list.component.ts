@@ -40,6 +40,7 @@ export class EvenementListComponent implements OnInit {
   }
 
   applyFilter(): void {
+    console.log('Type sélectionné:', this.selectedType);
     if (!this.selectedType) {
       this.evenementsFiltres = [...this.evenements];
     } else {
