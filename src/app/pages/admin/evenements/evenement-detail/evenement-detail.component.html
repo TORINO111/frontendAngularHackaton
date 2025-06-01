@@ -146,13 +146,15 @@
             
             <!-- Boutons d'action avec effets premium -->
             <div class="flex justify-center space-x-5 mt-6">
-                <button class="px-8 py-3 border-2 border-[#E69B3A] text-[#E69B3A] rounded-full font-medium tracking-wide hover:bg-[#E69B3A] hover:text-white transition-all transform hover:scale-105 shadow-lg hover:shadow-[#E69B3A]/30 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <button class="px-8 py-3 border-2 border-[#E69B3A] text-[#E69B3A] rounded-full font-medium tracking-wide hover:bg-[#E69B3A] hover:text-white transition-all transform hover:scale-105 shadow-lg hover:shadow-[#E69B3A]/30 flex items-center"
+                (click)="validerAbsence(evenement!.id.toString())">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 Valider
                 </button>
-                <button class="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-medium tracking-wide hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 shadow-lg hover:shadow-red-500/30 flex items-center">
+                <button class="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-medium tracking-wide hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 shadow-lg hover:shadow-red-500/30 flex items-center"
+                (click)="refuserAbsence(evenement!.id.toString())">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>

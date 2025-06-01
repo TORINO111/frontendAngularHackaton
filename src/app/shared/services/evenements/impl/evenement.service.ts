@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Evenement, OneEvenement, PageResponse } from '../../../models/evenement.model';
 import { IEvenementService } from '../IEvenementService';
 import { environment } from '../../../../../environments/environment.prod';
@@ -31,23 +31,44 @@ export class EvenementService implements IEvenementService {
     return this.httpClient.get<OneEvenement>(`${this.apiUrl}/absences/${id}`);
   }
 
-  getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/etudiant/${etudiantId}`);
-  }
+  // getEvenementsByEtudiantID(etudiantId: string): Observable<PageResponse<Evenement>> {
+  //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/etudiant/${etudiantId}`);
+  // }
   
-  validerJustification(absenceId: string | number ): Observable<void> {
+  validerAbsence(absenceId: string ): Observable<void> {
     return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}valider/`, {});
   }
 
+  // getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
+  //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${etat}`);
+  // }
+
   getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${etat}`);
+    return this.httpClient.get<PageResponse<Evenement>>(
+      `${this.apiUrl}/absences/etat/${etat}`
+    ).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la récupération des événements par état :', error);
+        return throwError(() => new Error('Impossible de charger les événements par état.'));
+      })
+    );
   }
 
   getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${type}`);
+    return this.httpClient.get<PageResponse<Evenement>>(
+      `${this.apiUrl}/absences/type/${type}`
+    ).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la récupération des événements par type :', error);
+        return throwError(() => new Error('Impossible de charger les événements par type.'));
+      })
+    );
   }
+  // getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
+  //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${type}`);
+  // }
 
-  rejeterJustification(absenceId: string | number): Observable<any> {
+  rejeterAbsence(absenceId: string | number): Observable<any> {
     return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/rejeter`, {});
   }
 

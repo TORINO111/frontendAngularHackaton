@@ -7,14 +7,14 @@ export interface IEvenementService {
 
     // getEvenementByID(evenementId: string | number): Observable<Evenement>;
 
-    getEvenementsByEtudiantID(etudiantId: number): Observable<PageResponse<Evenement>>;
+    // getEvenementsByEtudiantID(etudiantId: number): Observable<PageResponse<Evenement>>;
 
     getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>>;
 
     getEvenementsByType(type: string): Observable<PageResponse<Evenement>>;
     
-    validerJustification(absenceId: string | number): Observable<void>;
+    validerAbsence(absenceId: string | number): Observable<void>;
 
-    rejeterJustification(eventId: string | number): Observable<void>;
+    rejeterAbsence(eventId: string | number): Observable<void>;
 
 }

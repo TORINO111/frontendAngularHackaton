@@ -10,6 +10,7 @@ import { EventResolver } from '../../../../resolvers/event.resolver';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { catchError, Observable, throwError } from 'rxjs';
 @Component({
   selector: 'app-evenement-list',
   standalone: true,
@@ -26,6 +27,7 @@ export class EvenementListComponent implements OnInit {
   currentPage: number = 0;
   message: string = '';
   selectedType: string = '';
+  selectedEtat: string = '';
 
   constructor(
     private evenementService: EvenementService,
@@ -48,6 +50,64 @@ export class EvenementListComponent implements OnInit {
       this.evenementsFiltres = this.evenements.filter(
         evenement => evenement.type?.toLowerCase() === this.selectedType.toLowerCase()
       );
+    }
+  }
+
+  getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
+    return this.evenementService.getEvenementsByEtat(etat).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la récupération des événements par état :', error);
+        return throwError(() => new Error('Impossible de charger les événements par état.'));
+      })
+    );
+  }
+
+  filtrerParEtat(): void {
+    if (this.selectedEtat) {
+      this.getEvenementsByEtat(this.selectedEtat).subscribe({
+        next: (response) => {
+          this.evenementsFiltres = response.data;
+          this.totalItems = response.totalItems; // Mettre à jour le nombre total si nécessaire
+          this.totalPages = response.totalPages;   // Mettre à jour le nombre total de pages
+          this.currentPage = response.currentPage; // Réinitialiser la page actuelle
+        },
+        error: (error) => {
+          console.error('Erreur lors du filtrage par état:', error);
+          this.evenementsFiltres = []; 
+        }
+      });
+    } else {
+      this.evenementsFiltres = [...this.evenements];
+      this.loadPage(0);
+    }
+  }
+
+  getEvenementsParType(type: string): Observable<PageResponse<Evenement>> {
+    return this.evenementService.getEvenementsByType(type).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la récupération des événements par type :', error);
+        return throwError(() => new Error('Impossible de charger les événements par type.'));
+      })
+    );
+  }
+
+  filtrerParType(): void {
+    if (this.selectedType) {
+      this.getEvenementsParType(this.selectedType).subscribe({
+        next: (response) => {
+          this.evenementsFiltres = response.data;
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+          this.currentPage = response.currentPage;
+        },
+        error: (error) => {
+          console.error('Erreur lors du filtrage par type:', error);
+          this.evenementsFiltres = []; // Afficher une liste vide en cas d'erreur
+        }
+      });
+    } else {
+      this.evenementsFiltres = [...this.evenements]; // Afficher tous les événements si aucun type n'est sélectionné
+      this.loadPage(0); // Recharger la première page de tous les événements
     }
   }
 

@@ -23,7 +23,7 @@ export class EvenementDetailComponent implements OnInit {
   ngOnInit(): void {
     this.evenementId = this.route.snapshot.paramMap.get('id');
     if (this.evenementId) {
-      this.loadEvenementDetails(this.evenementId);
+      this.loadEvenementDetails(this.evenementId!);
       console.log(this.evenement)
     } else {
       this.errorMessage = 'ID de l\'événement non trouvé dans l\'URL.';
@@ -45,5 +45,37 @@ export class EvenementDetailComponent implements OnInit {
         this.errorMessage = 'Erreur lors du chargement des détails de l\'événement.';
       }
     });
+  }
+
+  validerAbsence(id: string | undefined): void {
+    if (id) {
+      this.evenementService.validerAbsence(id).subscribe({
+        next: (response) => {
+          console.log('Absence validée:', response);
+          // Gérez la réponse de l'API après la validation (par exemple, afficher un message de succès, recharger les détails)
+          this.loadEvenementDetails(id);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la validation de l\'absence:', error);
+          // Gérez l'erreur (par exemple, afficher un message d'erreur)
+        }
+      });
+    }
+  }
+
+  refuserAbsence(id: string | undefined): void {
+    if (id) {
+      this.evenementService.rejeterAbsence(id).subscribe({
+        next: (response) => {
+          console.log('Absence refusée:', response);
+          // Gérez la réponse de l'API après le refus (par exemple, afficher un message de succès, recharger les détails)
+          this.loadEvenementDetails(id); // Recharger les détails pour afficher l'état mis à jour
+        },
+        error: (error) => {
+          console.error('Erreur lors du refus de l\'absence:', error);
+          // Gérez l'erreur (par exemple, afficher un message d'erreur)
+        }
+      });
+    }
   }
 }
