@@ -47,9 +47,13 @@ export class EvenementService implements IEvenementService {
   //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${etat}`);
   // }
 
-  getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
+  getEvenementsByEtat(etat: string, page: number = 0, size: number = 10): Observable<PageResponse<Evenement>> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences/etat/${etat}`
+      `${this.apiUrl}/absences/etat/${etat}`,
+      { params }
     ).pipe(
       catchError(error => {
         console.error('Erreur lors de la récupération des événements par état :', error);
@@ -58,9 +62,13 @@ export class EvenementService implements IEvenementService {
     );
   }
 
-  getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
+  getEvenementsByType(type: string, page: number = 0, size: number = 10): Observable<PageResponse<Evenement>> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences/type/${type}`
+      `${this.apiUrl}/absences/type/${type}`,
+      { params }
     ).pipe(
       catchError(error => {
         console.error('Erreur lors de la récupération des événements par type :', error);

@@ -38,110 +38,87 @@ export class EvenementListComponent implements OnInit {
   ngOnInit(): void {
     const resolvedData = this.route.snapshot.data['evenementsPage'];
     this.loadPageFromResponse(resolvedData);
-    this.evenementsFiltres = [...this.evenements];
   }
 
-  applyFilter(): void {
-    console.log('Type sélectionné:', this.selectedType);
+  applyFilter(page: number = 0): void {
+    this.currentPage = page;
     if (!this.selectedType) {
-      this.evenementsFiltres = [...this.evenements];
-      console.log('Filtres', this.evenementsFiltres);
+      this.loadPage(page); // Si aucun type sélectionné, revenir au chargement paginé normal
     } else {
-      this.evenementsFiltres = this.evenements.filter(
-        evenement => evenement.type?.toLowerCase() === this.selectedType.toLowerCase()
-      );
+      this.evenementService.getEvenementsByType(this.selectedType, page).subscribe({
+        next: (response) => {
+          this.loadPageFromResponse(response);
+        },
+        error: (error) => {
+          console.error('Erreur lors du filtrage par type:', error);
+          this.evenementsFiltres = [];
+          this.totalItems = 0;
+          this.totalPages = 0;
+          this.message = 'Erreur lors du filtrage par type.';
+        }
+      });
     }
   }
 
-  getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
-    return this.evenementService.getEvenementsByEtat(etat).pipe(
-      catchError(error => {
-        console.error('Erreur lors de la récupération des événements par état :', error);
-        return throwError(() => new Error('Impossible de charger les événements par état.'));
-      })
-    );
-  }
-
-  filtrerParEtat(): void {
+  filtrerParEtat(page: number = 0): void {
+    this.currentPage = page;
     if (this.selectedEtat) {
-      this.getEvenementsByEtat(this.selectedEtat).subscribe({
+      this.evenementService.getEvenementsByEtat(this.selectedEtat, page).subscribe({
         next: (response) => {
-          this.evenementsFiltres = response.data;
-          this.totalItems = response.totalItems; // Mettre à jour le nombre total si nécessaire
-          this.totalPages = response.totalPages;   // Mettre à jour le nombre total de pages
-          this.currentPage = response.currentPage; // Réinitialiser la page actuelle
-          if (this.selectedEtat.toLowerCase() === 'justifie' && this.selectedType?.toLowerCase() === 'retard') {
-            this.selectedType = '';
-            this.filtrerParType();
-          } else if (this.selectedEtat.toLowerCase() === 'non_justifie' && this.selectedType?.toLowerCase() === 'absence') {
-            this.selectedType = '';
-            this.filtrerParType();
-          }
+          this.loadPageFromResponse(response);
+          // Retirer les conditions spécifiques ici, la logique de filtrage doit être dans le backend
         },
         error: (error) => {
           console.error('Erreur lors du filtrage par état:', error);
           this.evenementsFiltres = [];
+          this.totalItems = 0;
+          this.totalPages = 0;
+          this.message = 'Erreur lors du filtrage par état.';
         }
       });
     } else {
-      this.evenementsFiltres = [...this.evenements];
-      this.loadPage(0);
+      this.loadPage(page); // Si aucun état sélectionné, revenir au chargement paginé normal
     }
-  }
-
-  getEvenementsParType(type: string): Observable<PageResponse<Evenement>> {
-    return this.evenementService.getEvenementsByType(type).pipe(
-      catchError(error => {
-        console.error('Erreur lors de la récupération des événements par type :', error);
-        return throwError(() => new Error('Impossible de charger les événements par type.'));
-      })
-    );
   }
 
   filtrerParType(): void {
-    if (this.selectedType) {
-      this.getEvenementsParType(this.selectedType).subscribe({
-        next: (response) => {
-          this.evenementsFiltres = response.data;
-          this.totalItems = response.totalItems;
-          this.totalPages = response.totalPages;
-          this.currentPage = response.currentPage;
-        },
-        error: (error) => {
-          console.error('Erreur lors du filtrage par type:', error);
-          this.evenementsFiltres = []; // Afficher une liste vide en cas d'erreur
-        }
-      });
-    } else {
-      this.evenementsFiltres = [...this.evenements]; // Afficher tous les événements si aucun type n'est sélectionné
-      this.loadPage(0); // Recharger la première page de tous les événements
-    }
+    this.applyFilter(0); // Réinitialiser la page à 0 lors d'un nouveau filtre de type
+  }
+
+  filtrerParEtatTrigger(): void {
+    this.filtrerParEtat(0); // Réinitialiser la page à 0 lors d'un nouveau filtre d'état
   }
 
   goToPage(page: number): void {
     if (page >= 0 && page < this.totalPages) {
       this.currentPage = page;
-      this.loadPage(page);
+      if (this.selectedType) {
+        this.applyFilter(page);
+      } else if (this.selectedEtat) {
+        this.filtrerParEtat(page);
+      } else {
+        this.loadPage(page);
+      }
     }
   }
 
   loadPage(page: number): void {
-  this.evenementService.getEvenements(page).subscribe(response => {
-    this.loadPageFromResponse(response);
-  });
-}
+    this.evenementService.getEvenements(page).subscribe(response => {
+      this.loadPageFromResponse(response);
+    });
+  }
 
   private loadPageFromResponse(response: PageResponse<Evenement>): void {
+    this.pageResponse = response;
     this.evenements = response.data;
+    this.evenementsFiltres = [...this.evenements]; // Mettre à jour la liste filtrée avec les données de la page
     this.totalItems = response.totalItems;
     this.currentPage = response.currentPage;
     this.totalPages = response.totalPages;
     this.message = response.message;
-    this.applyFilter();
   }
 
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i);
   }
-
 }
