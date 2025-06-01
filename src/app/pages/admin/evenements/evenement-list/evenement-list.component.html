@@ -99,8 +99,8 @@
             (change)="filtrerParType()"
           >
             <option value="">Filtre par type</option>
-            <option value="RETARD">Retard</option>
-            <option value="ABSENCE">Absence</option>
+            <option value="RETARD" [disabled]="selectedEtat === 'JUSTIFIE'">Retard</option>
+            <option value="ABSENCE" [disabled]="selectedEtat === 'NON_JUSTIFIE'">Absence</option>
           </select>
           <div
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"

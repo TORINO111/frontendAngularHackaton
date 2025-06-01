@@ -70,10 +70,17 @@ export class EvenementListComponent implements OnInit {
           this.totalItems = response.totalItems; // Mettre à jour le nombre total si nécessaire
           this.totalPages = response.totalPages;   // Mettre à jour le nombre total de pages
           this.currentPage = response.currentPage; // Réinitialiser la page actuelle
+          if (this.selectedEtat.toLowerCase() === 'justifie' && this.selectedType?.toLowerCase() === 'retard') {
+            this.selectedType = '';
+            this.filtrerParType();
+          } else if (this.selectedEtat.toLowerCase() === 'non_justifie' && this.selectedType?.toLowerCase() === 'absence') {
+            this.selectedType = '';
+            this.filtrerParType();
+          }
         },
         error: (error) => {
           console.error('Erreur lors du filtrage par état:', error);
-          this.evenementsFiltres = []; 
+          this.evenementsFiltres = [];
         }
       });
     } else {
