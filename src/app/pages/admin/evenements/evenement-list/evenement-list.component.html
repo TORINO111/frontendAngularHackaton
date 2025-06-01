@@ -145,12 +145,16 @@
               </span>
             </td>
             <td class="px-6 py-4 text-center text-sm font-medium">
-              <a [routerLink]="['/evenementDetail', evenement.id]"
-                matButton="elevated"
-                matTooltip="Voir les détails de l'absence"
-                aria-label="Lien pour voir les détails de l'absence">
-                Voir
-              </a>
+              <ng-container *ngIf="evenement.type !== 'RETARD'; else retardTemplate">
+                <a [routerLink]="['/evenementDetail', evenement.id]"
+                  matButton="elevated"
+                  matTooltip="Voir les détails de l'absence"
+                  aria-label="Lien pour voir les détails de l'absence">
+                  Voir
+                </a>
+              </ng-container>
+              <ng-template #retardTemplate>
+                </ng-template>
             </td>
           </tr>
 

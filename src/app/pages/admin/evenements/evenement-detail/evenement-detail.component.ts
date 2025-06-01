@@ -35,6 +35,7 @@ export class EvenementDetailComponent implements OnInit {
       next: (response) => {
         if (response && response.data) {
           this.evenement = response.data;
+          console.log(this.evenement, "event recovered")
         } else {
           this.errorMessage = 'Détails de l\'événement non trouvés.';
         }
