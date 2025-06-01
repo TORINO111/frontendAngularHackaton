@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 import { Injectable, signal, inject } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../../../environments/environment.prod';
@@ -6,10 +10,25 @@ import { IAuthService } from '../IAuthService';
 import { Router } from '@angular/router';
 import { UserStore } from '../../../../stores/user.store';
 import { HttpClient } from '@angular/common/http';
+<<<<<<< HEAD
+=======
+=======
+import { Injectable, signal } from '@angular/core';
+import { AuthResponse, LoginResponse, Role, RoleEnum, User, UserCredentials } from '../../../models/user.model';
+import { BehaviorSubject, catchError, delay, Observable, of, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { IAuthService } from '../IAuthService';
+import { environment } from '../../../../../environments/environment.prod';
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 
 @Injectable({
   providedIn: 'root'
 })
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 export class AuthenticationService implements IAuthService {
 
   constructor(private router: Router, private http: HttpClient, private userStore: UserStore) { }
@@ -47,15 +66,68 @@ export class AuthenticationService implements IAuthService {
       tap(response => {
         if (response.user) {
           this.userStore.setUser(response.user);
+<<<<<<< HEAD
+=======
+=======
+export class AuthenticationService implements IAuthService{
+
+
+  currentUserSignal = signal<User|null>(null);
+
+  constructor(private http: HttpClient) { }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSignal();
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.currentUserSignal();
+  }
+
+  logout(): void {
+    this.currentUserSignal.set(null);
+  }
+
+  isAdmin(): boolean {
+    return this.isAuthenticated() && this.currentUserSignal()?.role === 'Admin';
+  }
+
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.apiUrl}/authentification`, {
+      username,
+      password
+    }).pipe(
+      tap(response => {
+        if (response.success && response.data) {
+          this.currentUserSignal.set(response.data);
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
         }
       }),
       catchError(() => {
         return of({
           message: 'ERROR: Login failed',
           success: false,
+<<<<<<< HEAD
           user: null
+=======
+<<<<<<< HEAD
+          user: null
+=======
+          data: null
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
         });
       })
     );
   }
+<<<<<<< HEAD
 }
+=======
+<<<<<<< HEAD
+}
+=======
+
+}
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c

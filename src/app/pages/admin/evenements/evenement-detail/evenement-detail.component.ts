@@ -1,15 +1,26 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
 import { Evenement } from '../../../../shared/models/evenement.model';
 import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
+<<<<<<< HEAD
 import { CommonModule } from '@angular/common';
+=======
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 
 @Component({
   selector: 'app-evenement-detail',
   templateUrl: './evenement-detail.component.html',
   styleUrls: ['./evenement-detail.component.less'],
+<<<<<<< HEAD
   imports: [RouterModule, SidebarComponent, CommonModule ]
+=======
+  imports: [RouterModule, SidebarComponent]
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 })
 export class EvenementDetailComponent implements OnInit {
   evenementId: string | null = null;
@@ -79,4 +90,21 @@ export class EvenementDetailComponent implements OnInit {
       });
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-evenement-detail',
+  imports: [],
+  templateUrl: './evenement-detail.component.html',
+  styleUrl: './evenement-detail.component.less'
+})
+export class EvenementDetailComponent {
+
+}
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c

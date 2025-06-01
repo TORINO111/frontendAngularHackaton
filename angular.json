@@ -26,12 +26,24 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
               "src/favicon.ico",
               "src/assets",
               {
                 "glob": "**/*",
                 "input": "public",
                 "output": "/"
+<<<<<<< HEAD
+=======
+=======
+              {
+                "glob": "**/*",
+                "input": "public"
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
               }
             ],
             "styles": [
@@ -88,12 +100,24 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "less",
             "assets": [
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
               "src/favicon.ico",
               "src/assets",
               {
                 "glob": "**/*",
                 "input": "public",
                 "output": "/"
+<<<<<<< HEAD
+=======
+=======
+              {
+                "glob": "**/*",
+                "input": "public"
+>>>>>>> 812747f151929131edf7b6af79828d6b040338b4
+>>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
               }
             ],
             "styles": [
