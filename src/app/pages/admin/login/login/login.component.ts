@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LogoComponent } from '../../../../shared/components/layout/logo/logo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { timeout } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,11 +31,8 @@ export class LoginComponent {
       this.authService.login(login, password).subscribe({
         next: (response) => {
           if (response.user) {
-            console.log('Router instance:', this.router);
             this.messageSucces = 'Connexion réussie ! Redirection en cours...';
-            this.router.navigate(['/evenements']).then(success => {
-              console.log('Navigation réussie ?', success);
-            });
+            this.router.navigate(['/evenements']);
           } else {
             this.messageSucces = response.message || 'Échec de la connexion.';
           }

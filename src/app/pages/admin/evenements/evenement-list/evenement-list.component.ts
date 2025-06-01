@@ -7,7 +7,7 @@ import { HeaderComponent } from "../../../../shared/components/layout/header/hea
 import { HighlightDirective } from '../../../../directives/highlight.directive';
 import { AuthenticationService } from '../../../../shared/services/auth/impl/authentication.service';
 import { EventResolver } from '../../../../resolvers/event.resolver';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-evenement-list',
@@ -27,24 +27,33 @@ export class EvenementListComponent implements OnInit {
   constructor(
     private evenementService: EvenementService,
     public authService: AuthenticationService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-  const resolvedData = this.route.snapshot.data['evenementsPage'];
-  this.evenements = resolvedData.data;
-  this.totalItems = resolvedData.totalItems;
-  this.currentPage = resolvedData.currentPage;
-  this.totalPages = resolvedData.totalPages;
-  this.message = resolvedData.message;
-  
-}
+    const resolvedData = this.route.snapshot.data['evenementsPage'];
+    this.loadPageFromResponse(resolvedData);
+  }
 
   goToPage(page: number): void {
-    if (page >= 0 && page < this.totalPages && page !== this.currentPage) {
-      this.router.navigate(['/evenements', page]);
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.loadPage(page);
     }
+  }
+
+  loadPage(page: number): void {
+    this.evenementService.getEvenements(page).subscribe(response => {
+      this.loadPageFromResponse(response);
+    });
+  }
+
+  private loadPageFromResponse(response: PageResponse<Evenement>): void {
+    this.evenements = response.data;
+    this.totalItems = response.totalItems;
+    this.currentPage = response.currentPage;
+    this.totalPages = response.totalPages;
+    this.message = response.message;
   }
 
   getPages(): number[] {
