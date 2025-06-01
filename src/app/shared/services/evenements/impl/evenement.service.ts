@@ -27,6 +27,9 @@ export class EvenementService implements IEvenementService {
     );
   }
 
+  getEvenementById(id: string): Observable<Evenement> {
+    return this.httpClient.get<Evenement>(`${this.apiUrl}/absences/${id}`);
+  }
 
   getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
     return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/etudiant/${etudiantId}`);

@@ -12,7 +12,7 @@ export const routes: Routes = [
 
     { path: 'evenements', component: EvenementListComponent, canActivate: [AuthGuard], resolve: { evenementsPage: EventResolver } },
     // { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
-    { path: 'evenementDetail', component: EvenementDetailComponent, canActivate: [AuthGuard] },
+    { path: 'evenementDetail/:id', component: EvenementDetailComponent, canActivate: [AuthGuard] },
 
     { path: '**', component: NotFoundComponent }
 ];

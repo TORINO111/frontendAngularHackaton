@@ -145,11 +145,12 @@
               </span>
             </td>
             <td class="px-6 py-4 text-center text-sm font-medium">
-              <button matButton="elevated"
-                      matTooltip="Info about the action"
-                      aria-label="Button that displays a tooltip when focused or hovered over">
+              <a [routerLink]="['/evenementDetail', evenement.id]"
+                matButton="elevated"
+                matTooltip="Voir les détails de l'absence"
+                aria-label="Lien pour voir les détails de l'absence">
                 Voir
-              </button>
+              </a>
             </td>
           </tr>
 

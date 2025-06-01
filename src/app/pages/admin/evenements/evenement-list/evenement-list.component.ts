@@ -8,11 +8,11 @@ import { HighlightDirective } from '../../../../directives/highlight.directive';
 import { AuthenticationService } from '../../../../shared/services/auth/impl/authentication.service';
 import { EventResolver } from '../../../../resolvers/event.resolver';
 import { ActivatedRoute } from '@angular/router';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-evenement-list',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, HighlightDirective, HeaderComponent],
+  imports: [CommonModule, SidebarComponent, HighlightDirective, HeaderComponent, RouterModule],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less',
 })
@@ -43,10 +43,10 @@ export class EvenementListComponent implements OnInit {
   }
 
   loadPage(page: number): void {
-      this.evenementService.getEvenements(page).subscribe(response => {
-      this.loadPageFromResponse(response);
-    });
-  }
+  this.evenementService.getEvenements(page).subscribe(response => {
+    this.loadPageFromResponse(response);
+  });
+}
 
   private loadPageFromResponse(response: PageResponse<Evenement>): void {
     this.evenements = response.data;

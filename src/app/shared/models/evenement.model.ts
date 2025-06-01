@@ -34,6 +34,10 @@ export interface JustificationDetails {
     commentaireAdmin?: string;
 }
 
+export interface OneEvenement{
+    data:[Evenement],
+    message: string
+}
 
 export interface Evenement{
     id: string | number,
