@@ -43,6 +43,7 @@ export class EvenementListComponent implements OnInit {
     console.log('Type sélectionné:', this.selectedType);
     if (!this.selectedType) {
       this.evenementsFiltres = [...this.evenements];
+      console.log('Filtres', this.evenementsFiltres);
     } else {
       this.evenementsFiltres = this.evenements.filter(
         evenement => evenement.type?.toLowerCase() === this.selectedType.toLowerCase()
