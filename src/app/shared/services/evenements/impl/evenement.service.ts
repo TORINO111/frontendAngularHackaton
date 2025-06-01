@@ -36,7 +36,11 @@ export class EvenementService implements IEvenementService {
   // }
   
   validerAbsence(absenceId: string ): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}valider/`, {});
+    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/valider`, {});
+  }
+
+  rejeterAbsence(absenceId: string | number): Observable<any> {
+    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/rejeter`, {});
   }
 
   // getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
@@ -68,8 +72,6 @@ export class EvenementService implements IEvenementService {
   //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${type}`);
   // }
 
-  rejeterAbsence(absenceId: string | number): Observable<any> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/rejeter`, {});
-  }
+
 
 }
