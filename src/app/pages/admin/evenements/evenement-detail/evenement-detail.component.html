@@ -44,7 +44,7 @@
             <nav class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-2">
                 <li>
-                <a href="#" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-[#E69B3A] transition-colors group">
+                <a [routerLink]="['/evenements']" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-[#E69B3A] transition-colors group">
                     <svg class="w-4 h-4 mr-2 text-gray-400 group-hover:text-[#E69B3A]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
@@ -76,12 +76,12 @@
             <div class="absolute top-0 right-0 w-24 h-24 bg-[#E69B3A]/5 rounded-bl-full"></div>
             
             <!-- Bouton Retour avec effet de profondeur -->
-            <button class="flex items-center text-gray-600 hover:text-[#E69B3A] mb-8 group transition-colors">
+            <a [routerLink]="['/evenements']" class="flex items-center text-gray-600 hover:text-[#E69B3A] mb-8 group transition-colors">
                 <svg class="w-5 h-5 mr-2 group-hover:animate-bounce-left" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
                 <span class="font-medium tracking-wide">Retour sur la liste</span>
-            </button>
+            </a>
             
             <!-- Avatar avec effet de halo -->
             <div class="flex justify-center mb-8 relative">
@@ -95,14 +95,14 @@
             
             <!-- Nom étudiant avec ombre portée -->
             <div class="text-center mb-6">
-                <h2 class="text-3xl font-bold text-gray-900 tracking-tight drop-shadow-sm">Seydina Mouhammad</h2>
-                <h2 class="text-3xl font-bold text-gray-900 mt-1 tracking-tight drop-shadow-sm">Diop</h2>
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tight drop-shadow-sm">{{evenement?.etudiant?.prenom}} </h2>
+                <h2 class="text-3xl font-bold text-gray-900 mt-1 tracking-tight drop-shadow-sm">{{evenement?.etudiant?.nom}}</h2>
             </div>
             
             <!-- Badge avec effet métallique -->
             <div class="flex justify-center mb-10">
-                <span class="bg-gradient-to-r from-[#E69B3A] to-[#d48a2f] text-white px-6 py-2 rounded-full font-bold tracking-wide shadow-lg transform rotate-[-2deg] hover:rotate-0 transition-transform">
-                <span class="drop-shadow-md">FLUTER</span>
+                <span class="bg-gradient-to-r from-[#E69B3A] to-[#d48a2f] text-white px-6 py-2 rounded-full font-bold tracking-wide shadow-lg  hover:rotate-0 transition-transform">
+                <span class="drop-shadow-md">Cours</span>
                 </span>
             </div>
             
@@ -110,22 +110,22 @@
             <div class="space-y-5 bg-gradient-to-b from-white to-gray-50 rounded-xl p-5 shadow-inner border border-gray-100">
                 <div class="flex justify-between pb-3 border-b border-gray-200">
                 <span class="text-gray-500 font-light tracking-wide">Nom Complet</span>
-                <span class="text-gray-900 font-medium">Seydina Mouhamed Diop</span>
+                <span class="text-gray-900 font-medium">{{evenement?.etudiant?.prenom}} {{evenement?.etudiant?.nom}}</span>
                 </div>
                 
                 <div class="flex justify-between pb-3 border-b border-gray-200">
-                <span class="text-gray-500 font-light tracking-wide">Date de Naissance</span>
-                <span class="text-gray-900 font-medium">19/06/1999</span>
+                <span class="text-gray-500 font-light tracking-wide">Numéro de téléphone</span>
+                <span class="text-gray-900 font-medium">1{{evenement?.etudiant?.telephone}}</span>
                 </div>
                 
                 <div class="flex justify-between pb-3 border-b border-gray-200">
                 <span class="text-gray-500 font-light tracking-wide">Classe</span>
-                <span class="text-gray-900 font-medium">L3GLRS</span>
+                <span class="text-gray-900 font-medium">{{evenement?.etudiant?.classe?.niveau}} {{evenement?.etudiant?.classe?.filiere}}</span>
                 </div>
                 
                 <div class="flex justify-between">
                 <span class="text-gray-500 font-light tracking-wide">Matricule</span>
-                <span class="text-gray-900 font-medium">1058220</span>
+                <span class="text-gray-900 font-medium">{{evenement?.etudiant?.matricule}}</span>
                 </div>
             </div>
             </div>
@@ -153,7 +153,7 @@
                 </h3>
                 <div class="bg-gradient-to-b from-gray-50 to-white border border-gray-200 rounded-xl p-5 shadow-inner min-h-[120px]">
                 <p class="text-gray-700 leading-relaxed font-light">
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nisl mi, suscipit at diam ac, vulputate blandit dolor. Nulla a tincidunt turpis. Pellentesque porttitor lacus a finibus elementum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec euismod, nisl eget aliquam ultricies, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed vitae nisl eget nisl aliquam ultricies. Sed vitae nisl eget nisl aliquam ultricies."
+                    {{evenement?.justification}}
                 </p>
                 </div>
             </div>

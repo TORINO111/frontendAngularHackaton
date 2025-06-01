@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../../../shared/components/layout/sidebar/sidebar.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
 import { Evenement } from '../../../../shared/models/evenement.model';
 
 @Component({
   selector: 'app-evenement-detail',
-  imports: [SidebarComponent],
+  imports: [SidebarComponent, RouterModule],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.less'
 })
