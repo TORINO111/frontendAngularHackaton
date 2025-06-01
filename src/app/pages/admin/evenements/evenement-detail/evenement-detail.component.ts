@@ -36,7 +36,7 @@ export class EvenementDetailComponent implements OnInit{
     this.evenementService.getEvenementById(id).subscribe({
       next: (data) => {
         this.evenement = data;
-        console.log(this.evenement)
+        console.log(this.evenement, 'Récupéré avec succès')
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des détails de l\'événement:', error);
