@@ -9,12 +9,12 @@ import { PageResponse, Evenement } from '../shared/models/evenement.model';
     providedIn: 'root',
 })
 export class EventResolver implements Resolve<PageResponse<Evenement>> {
+
     constructor(private evenementService: EvenementService) {}
 
     resolve(): Observable<PageResponse<Evenement>> {
         return this.evenementService.getEvenements(0).pipe(
         catchError(() => {
-            
             return of({
             data: [],
             totalItems: 0,

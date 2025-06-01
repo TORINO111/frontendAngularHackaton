@@ -8,7 +8,6 @@ import { User } from '../shared/models/user.model';
 export class UserStore {
     private _user = signal<User | null>(null);
 
-    // Computed signal
     readonly userFullName = computed(() => {
         const u = this._user();
         return u ? `${u.prenom} ${u.nom}` : '';

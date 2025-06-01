@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Evenement, PageResponse } from '../../../models/evenement.model';
+import { Evenement, OneEvenement, PageResponse } from '../../../models/evenement.model';
 import { IEvenementService } from '../IEvenementService';
 import { environment } from '../../../../../environments/environment.prod';
 
@@ -27,8 +27,8 @@ export class EvenementService implements IEvenementService {
     );
   }
 
-  getEvenementById(id: string): Observable<Evenement> {
-    return this.httpClient.get<Evenement>(`${this.apiUrl}/absences/${id}`);
+  getEvenementById(id: string): Observable<OneEvenement> {
+    return this.httpClient.get<OneEvenement>(`${this.apiUrl}/absences/${id}`);
   }
 
   getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
@@ -36,7 +36,7 @@ export class EvenementService implements IEvenementService {
   }
   
   validerJustification(absenceId: string | number ): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/valider/${absenceId}`, {});
+    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}valider/`, {});
   }
 
   getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
@@ -48,7 +48,7 @@ export class EvenementService implements IEvenementService {
   }
 
   rejeterJustification(absenceId: string | number): Observable<any> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/rejeter/${absenceId}`, {});
+    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/rejeter`, {});
   }
 
 }

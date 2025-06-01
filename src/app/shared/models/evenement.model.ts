@@ -35,7 +35,7 @@ export interface JustificationDetails {
 }
 
 export interface OneEvenement{
-    data:[Evenement],
+    data:Evenement,
     message: string
 }
 
