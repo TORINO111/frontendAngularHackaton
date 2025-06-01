@@ -164,9 +164,13 @@
             <td class="text-center">{{ evenement.heureDebut }}-{{ evenement.heureFin }}</td>
             <td class="text-center">Cours</td>
             <td class="text-center">
-              <span [ngClass]="evenement.etat == 'JUSTIFIE' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'">
-                {{ evenement.etat == 'JUSTIFIE' ? 'Justifié' : 'Non justifié' }}
-              </span>
+             <span [ngClass]="{
+                'text-green-600 font-semibold': evenement.etat == 'JUSTIFIE',
+                'text-red-600 font-semibold': evenement.etat == 'NOJUSTIFIE',
+                'text-yellow-500 font-semibold': evenement.etat == 'ENATTENTE'
+              }">
+              {{ evenement.etat == 'JUSTIFIE' ? 'Justifié' : (evenement.etat == 'NOJUSTIFIE' ? 'Non justifié' : 'En attente') }}
+            </span>
             </td>
             <td class="px-6 py-4 text-center text-sm font-medium">
               <ng-container *ngIf="evenement.type !== 'RETARD ' && evenement.etat === 'ENATTENTE'; else retardTemplate">
