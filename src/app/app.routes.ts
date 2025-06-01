@@ -10,7 +10,7 @@ export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
 
-    { path: 'evenements', component: EvenementListComponent, canActivate: [AuthGuard], resolve: { evenementsPage: EventResolver } },
+    { path: 'evenements', component: EvenementListComponent,  resolve: { evenementsPage: EventResolver } },
     // { path: 'evenement/:id', component: EvenementDetailComponent, canActivate: [AuthGuard, AdminGuard] },
     { path: 'evenementDetail/:id', component: EvenementDetailComponent, canActivate: [AuthGuard] },
 
