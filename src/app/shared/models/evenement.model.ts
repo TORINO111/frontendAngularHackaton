@@ -47,6 +47,7 @@ export interface Evenement{
     heureDebut: string,
     heureFin: string,
     justification?: string,
+    justificatifImage: string,
     etudiant: Etudiant,
 }
 

@@ -3,12 +3,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
 import { Evenement } from '../../../../shared/models/evenement.model';
 import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-evenement-detail',
   templateUrl: './evenement-detail.component.html',
   styleUrls: ['./evenement-detail.component.less'],
-  imports: [RouterModule, SidebarComponent]
+  imports: [RouterModule, SidebarComponent, CommonModule ]
 })
 export class EvenementDetailComponent implements OnInit {
   evenementId: string | null = null;
