@@ -1,0 +1,226 @@
+<!-- <div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <h4 class="card-title local-title">Liste des Absences</h4>
+            <p class="card-category">Voici la liste de toutes les absences enregistrées</p>
+          </div>
+          <div class="card-body table-responsive">
+            <div *ngIf="message">
+              <p>{{ message }}</p>
+            </div>
+
+            <div *ngIf="evenements.length === 0 && !pageResponse">
+                <p>Chargement des absences...</p>
+            </div>
+
+            <div *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
+              <p>Aucune absence enregistrée.</p>
+            </div>
+
+            <table class="table table-hover" *ngIf="evenements.length > 0">
+              <thead class="text-warning">
+                <th>ID</th>
+                <th>Date Début</th>
+                <th>Heure Début</th>
+                <th>Heure Fin</th>
+                <th>Justification</th>
+                <th>État</th>
+                <th>Type</th>
+                <th>ID Étudiant</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let evenement of evenements">
+                  <td>{{ evenement.id }}</td>
+                  <td>{{ evenement.dateDebut }}</td>
+                  <td>{{ evenement.heureDebut }}</td>
+                  <td>{{ evenement.heureFin }}</td>
+                  <td>{{ evenement.justification }}</td>
+                  <td>{{ evenement.etat }}</td>
+                  <td>{{ evenement.type }}</td>
+                  <td>{{ evenement.etudiantId }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div *ngIf="totalPages > 1">
+              <div class="pagination">
+                <p>Page {{ currentPage + 1 }} sur {{ totalPages }} ({{ totalItems }} éléments au total)</p>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="flex h-screen bg-gray-50">
+  <app-sidebar></app-sidebar>
+
+  <!-- Contenu principal -->
+  <div class="flex-1 flex flex-col">
+    <!-- Header -->
+    <!-- Contenu -->
+    <main class="flex-1 overflow-y-auto p-6">
+      <!-- Overlay de chargement principal -->
+      <div *ngIf="isLoading"
+        class="fixed inset-0 bg-white bg-opacity-70 z-50 flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#E69B3A]"></div>
+        <p class="mt-4 text-[#4A3B2F] font-medium">Chargement en cours...</p>
+      </div>
+
+      <!-- Squelette de chargement pour le tableau -->
+      <div *ngIf="isLoading && evenements.length === 0" class="bg-white rounded-lg shadow p-6 space-y-4">
+        <div *ngFor="let item of [1,2,3,4,5]" class="animate-pulse">
+          <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+          <div class="h-4 bg-gray-200 rounded w-1/2 mt-2"></div>
+        </div>
+      </div>
+
+      <div *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
+        <p>Aucune absence enregistrée.</p>
+      </div>
+      <!-- Titre et compteur -->
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Absences</h1>
+        <span class="bg-[#4A3B2F] text-white px-3 py-1 rounded-full text-sm">
+          {{ totalItems }} évènements
+        </span>
+      </div>
+
+      <!-- Filtres -->
+      <div class="flex justify-le mb-6">
+
+        <div class="relative">
+          <select
+              [disabled]="isLoading"
+            class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
+            [(ngModel)]="selectedType" (change)="filtrerParType()">
+            <option value="">Filtre par type</option>
+            <option value="RETARD" [disabled]="selectedEtat === 'JUSTIFIE'">Retard</option>
+            <option value="ABSENCE" [disabled]="selectedEtat === 'NON_JUSTIFIE'">Absence</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="relative">
+          <select
+              [disabled]="isLoading"
+            class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
+            [(ngModel)]="selectedEtat" (change)="filtrerParEtat()">
+            <option value="">Filtre par etat</option>
+            <option value="JUSTIFIE">Justifié</option>
+            <option value="NOJUSTIFIE">Non justifié</option>
+            <option value="ENATTENTE">En attente</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau -->
+      <div class="bg-white rounded-lg shadow ">
+        <table class="min-w-full">
+          <thead class="bg-[#4A3B2F]">
+            <tr>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Matricule
+              </th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Nom complet
+              </th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Classe</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Date</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Horaire</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Cours</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Etat</th>
+              <th
+                class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider rounded-tr-lg">
+                Détails</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <!-- Chargement
+            <tr *ngIf="evenements.length === 0 && !pageResponse">
+              <td colspan="8" class="px-6 py-4 text-center">
+                <p>Chargement des absences...</p>
+              </td>
+            </tr> -->
+            <tr *ngFor="let evenement of evenementsFiltres">
+              <td class="text-center">{{ evenement.etudiant.matricule }}</td>
+              <td class="text-center">{{ evenement.etudiant.prenom }} {{ evenement.etudiant.nom }}</td>
+              <td class="text-center">{{ evenement.etudiant.classe.niveau }} {{ evenement.etudiant.classe.filiere }}
+              </td>
+              <td class="text-center">{{ evenement.dateDebut }}</td>
+              <td class="text-center">{{ evenement.heureDebut }}-{{ evenement.heureFin }}</td>
+              <td class="text-center">Cours</td>
+              <td class="text-center">
+                <span [ngClass]="{
+              'text-green-600 font-semibold': evenement.etat == 'JUSTIFIE',
+              'text-red-600 font-semibold': evenement.etat == 'NOJUSTIFIE',
+              'text-yellow-500 font-semibold': evenement.etat == 'ENATTENTE'
+            }">
+                  {{ evenement.etat == 'JUSTIFIE' ? 'Justifié' : (evenement.etat == 'NOJUSTIFIE' ? 'Non justifié' : 'En
+                  attente') }}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-center text-sm font-medium">
+                <ng-container
+                  *ngIf="evenement.type !== 'RETARD ' && evenement.etat === 'ENATTENTE'; else retardTemplate">
+                  <a [routerLink]="['/evenementDetail', evenement.id]" matButton="elevated"
+                    matTooltip="Voir les détails de l'absence" aria-label="Lien pour voir les détails de l'absence">
+                    Voir
+                  </a>
+                </ng-container>
+                <ng-template #retardTemplate>
+                </ng-template>
+              </td>
+            </tr>
+
+            <!-- Si Aucune donnée retrouvée -->
+            <tr *ngIf="evenementsFiltres.length === 0 && pageResponse?.totalItems === 0">
+              <td colspan="8" class="px-6 py-4 text-center">
+                <p>Aucune absence enregistrée.</p>
+              </td>
+            </tr>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-6 flex items-center justify-between">
+        <!-- Pagination -->
+        <div *ngIf="totalPages > 1" class="pagination-container">
+          <div class="pagination-controls">
+            <!-- Précédent -->
+            <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">
+              « Précédent
+            </button>
+
+            <!-- Pages -->
+            <ng-container *ngFor="let page of getPages()">
+              <button (click)="goToPage(page)" [class.active]="page === currentPage">
+                {{ page + 1 }}
+              </button>
+            </ng-container>
+
+            <!-- Suivant -->
+            <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages - 1">
+              Suivant »
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
