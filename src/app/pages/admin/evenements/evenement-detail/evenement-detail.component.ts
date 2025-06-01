@@ -27,6 +27,8 @@ export class EvenementDetailComponent implements OnInit{
     this.evenementId = this.route.snapshot.paramMap.get('id');
     if (this.evenementId) {
       this.loadEvenementDetails(this.evenementId);
+      console.log(this.evenement, 'Récupéré avec succès')
+
     } else {
       this.errorMessage = 'ID de l\'événement non trouvé dans l\'URL.';
     }
