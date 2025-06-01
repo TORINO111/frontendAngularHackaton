@@ -165,12 +165,12 @@
             <td class="text-center">Cours</td>
             <td class="text-center">
              <span [ngClass]="{
-                'text-green-600 font-semibold': evenement.etat == 'JUSTIFIE',
-                'text-red-600 font-semibold': evenement.etat == 'NOJUSTIFIE',
-                'text-yellow-500 font-semibold': evenement.etat == 'ENATTENTE'
-              }">
-              {{ evenement.etat == 'JUSTIFIE' ? 'Justifié' : (evenement.etat == 'NOJUSTIFIE' ? 'Non justifié' : 'En attente') }}
-            </span>
+              'text-green-600 font-semibold': evenement.etat == 'JUSTIFIE',
+              'text-red-600 font-semibold': evenement.etat == 'NOJUSTIFIE',
+              'text-yellow-500 font-semibold': evenement.etat == 'ENATTENTE'
+            }">
+            {{ evenement.etat == 'JUSTIFIE' ? 'Justifié' : (evenement.etat == 'NOJUSTIFIE' ? 'Non justifié' : 'En attente') }}
+          </span>
             </td>
             <td class="px-6 py-4 text-center text-sm font-medium">
               <ng-container *ngIf="evenement.type !== 'RETARD ' && evenement.etat === 'ENATTENTE'; else retardTemplate">
@@ -188,7 +188,7 @@
 
             <!-- Si Aucune donnée retrouvée -->
             <tr
-              *ngIf="evenements.length === 0 && pageResponse?.totalItems === 0">
+              *ngIf="evenementsFiltres.length === 0 && pageResponse?.totalItems === 0">
               <td colspan="8" class="px-6 py-4 text-center">
                 <p>Aucune absence enregistrée.</p>
               </td>
