@@ -16,7 +16,7 @@ export class EvenementService implements IEvenementService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEvenements(page?: number, size?: number): Observable<PageResponse<Evenement>> {
+  getEvenements(page: number=0, size: number=10): Observable<PageResponse<Evenement>> {
     let params = new HttpParams();
     if (page !== undefined) params = params.set('page', page);
     if (size !== undefined) params = params.set('size', size);
