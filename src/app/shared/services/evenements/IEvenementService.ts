@@ -8,4 +8,5 @@ export interface IEvenementService {
   getEvenementsByType(type: string): Observable<PageResponse<Evenement>>;
   validerJustification(absenceId: string | number): Observable<void>;
   rejeterJustification(absenceId: string | number): Observable<void>;
+  getEvenementsByPeriode(etudiantId: string, dateDebut: string, dateFin: string): Observable<PageResponse<Evenement>>;
 }

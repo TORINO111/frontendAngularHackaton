@@ -39,13 +39,23 @@ export class EvenementListComponent implements OnInit {
   }
 
   filtrer(): void {
-
-    this.evenementService.getEvenements(this.currentPage, this.taille).subscribe(response => {
-      this.evenements = response.data;
-      this.totalItems = response.totalItems;
-      this.totalPages = response.totalPages;
-      this.message = response.message ?? '';
-    });
+    if (this.filtreEtudiantId && this.filtreDateDebut && this.filtreDateFin) {
+      this.evenementService.getEvenementsByPeriode(
+        this.filtreEtudiantId, this.filtreDateDebut, this.filtreDateFin
+      ).subscribe(response => {
+        this.evenements = response.data;
+        this.totalItems = response.totalItems;
+        this.totalPages = response.totalPages;
+        this.message = response.message ?? '';
+      });
+    } else {
+      this.evenementService.getEvenements(this.currentPage, this.taille).subscribe(response => {
+        this.evenements = response.data;
+        this.totalItems = response.totalItems;
+        this.totalPages = response.totalPages;
+        this.message = response.message ?? '';
+      });
+    }
   }
 
   goToPage(page: number): void {

@@ -56,7 +56,17 @@ export class EvenementService implements IEvenementService {
       })
     );
   }
-
+  getEvenementsByPeriode(etudiantId: string, dateDebut: string, dateFin: string): Observable<PageResponse<Evenement>> {
+    const params = {
+      etudiantId,
+      dateDebut,
+      dateFin
+    };
+    return this.httpClient.get<PageResponse<Evenement>>(
+      `${this.apiUrl}/absences/filtre`,
+      { params }
+    );
+  }
   getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
     return this.httpClient.get<PageResponse<Evenement>>(
       `${this.apiUrl}/absences/type/${type}`
