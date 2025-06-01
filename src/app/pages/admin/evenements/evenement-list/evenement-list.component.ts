@@ -9,20 +9,23 @@ import { AuthenticationService } from '../../../../shared/services/auth/impl/aut
 import { EventResolver } from '../../../../resolvers/event.resolver';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-evenement-list',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, HighlightDirective, HeaderComponent, RouterModule],
+  imports: [CommonModule, SidebarComponent, HighlightDirective, HeaderComponent, RouterModule, CommonModule, FormsModule ],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less',
 })
 export class EvenementListComponent implements OnInit {
   pageResponse: PageResponse<Evenement> | undefined;
   evenements: Evenement[] = [];
+  evenementsFiltres: Evenement[] = [];
   totalPages: number = 0;
   totalItems: number = 0;
   currentPage: number = 0;
   message: string = '';
+  selectedType: string = '';
 
   constructor(
     private evenementService: EvenementService,
@@ -33,6 +36,17 @@ export class EvenementListComponent implements OnInit {
   ngOnInit(): void {
     const resolvedData = this.route.snapshot.data['evenementsPage'];
     this.loadPageFromResponse(resolvedData);
+    this.evenementsFiltres = [...this.evenements];
+  }
+
+  applyFilter(): void {
+    if (!this.selectedType) {
+      this.evenementsFiltres = [...this.evenements];
+    } else {
+      this.evenementsFiltres = this.evenements.filter(
+        evenement => evenement.type?.toLowerCase() === this.selectedType.toLowerCase()
+      );
+    }
   }
 
   goToPage(page: number): void {
@@ -54,6 +68,7 @@ export class EvenementListComponent implements OnInit {
     this.currentPage = response.currentPage;
     this.totalPages = response.totalPages;
     this.message = response.message;
+    this.applyFilter();
   }
 
   getPages(): number[] {
