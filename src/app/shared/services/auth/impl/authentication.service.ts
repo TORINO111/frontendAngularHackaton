@@ -1,61 +1,65 @@
-import { Injectable, signal, inject } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
-import { environment } from '../../../../../environments/environment.prod';
-import { LoginResponse, User } from '../../../models/user.model';
-import { IAuthService } from '../IAuthService';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserStore } from '../../../../stores/user.store';
-import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from '../../../../../environments/environment.prod';
+import { User } from '../../../models/user.model';
+
+export interface Token {
+  value: string;
+
+}
+
+interface AuthResponse {
+  token: Token;
+  user: User;
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthenticationService implements IAuthService {
+export class AuthService {
+  private readonly apiUrl = environment.apiUrl;
+  private tokenKey = 'authToken';
 
-  constructor(private router: Router, private http: HttpClient, private userStore: UserStore) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  getCurrentUser(): User | null {
-    return this.userStore.user();
-  }
-
-  getCurrentUserSignal() {
-    return this.userStore.user;
-  }
-
-  getUserFullNameSignal() {
-    return this.userStore.userFullName;
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.userStore.user();
+  login(login: string, password: string): Observable<AuthResponse> {
+    const credentials = { login: login, password: password };
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response) => this.saveToken(response.token))
+    );
   }
 
   logout(): void {
-    this.userStore.logout();
+    localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/login']);
   }
 
-  isAdmin(): boolean {
-    return this.isAuthenticated() && this.userStore.user()?.role === 'Admin';
+  getToken(): string | null {
+    const storedToken = localStorage.getItem(this.tokenKey);
+    return storedToken;
   }
 
-  login(login: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${environment.apiUrl}/web/auth/login`, {
-      login,
-      password
-    }).pipe(
-      tap(response => {
-        if (response.user) {
-          this.userStore.setUser(response.user);
-        }
-      }),
-      catchError(() => {
-        return of({
-          message: 'ERROR: Login failed',
-          success: false,
-          user: null
-        });
-      })
-    );
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  saveToken(token: Token): void {
+    localStorage.setItem(this.tokenKey, token.value); // Utilisez token.value (ou le nom de votre propriété)
+  }
+
+  getCurrentUser(): Observable<User> {
+    const token = this.getToken();
+    if (!token) {
+      return of(null as unknown as User);
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<User>(`${this.apiUrl}/me`, { headers });
   }
 }
