@@ -1,20 +1,7 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Evenement, OneEvenement, PageResponse } from '../../../models/evenement.model';
-<<<<<<< HEAD
-=======
-=======
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Evenement, PageResponse } from '../../../models/evenement.model';
->>>>>>> 812747f151929131edf7b6af79828d6b040338b4
->>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 import { IEvenementService } from '../IEvenementService';
 import { environment } from '../../../../../environments/environment.prod';
 
@@ -29,12 +16,7 @@ export class EvenementService implements IEvenementService {
 
   constructor(private httpClient: HttpClient) { }
 
-<<<<<<< HEAD
   getEvenements(page: number=0, size: number=10): Observable<PageResponse<Evenement>> {
-=======
-<<<<<<< HEAD
-  getEvenements(page?: number, size?: number): Observable<PageResponse<Evenement>> {
->>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
     let params = new HttpParams();
     if (page !== undefined) params = params.set('page', page);
     if (size !== undefined) params = params.set('size', size);
@@ -65,7 +47,6 @@ export class EvenementService implements IEvenementService {
   //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${etat}`);
   // }
 
-<<<<<<< HEAD
   getEvenementsByEtat(etat: string, page: number = 0, size: number = 10): Observable<PageResponse<Evenement>> {
     let params = new HttpParams()
       .set('page', page)
@@ -73,11 +54,6 @@ export class EvenementService implements IEvenementService {
     return this.httpClient.get<PageResponse<Evenement>>(
       `${this.apiUrl}/absences/etat/${etat}`,
       { params }
-=======
-  getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences/etat/${etat}`
->>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
     ).pipe(
       catchError(error => {
         console.error('Erreur lors de la récupération des événements par état :', error);
@@ -86,7 +62,6 @@ export class EvenementService implements IEvenementService {
     );
   }
 
-<<<<<<< HEAD
   getEvenementsByType(type: string, page: number = 0, size: number = 10): Observable<PageResponse<Evenement>> {
     let params = new HttpParams()
       .set('page', page)
@@ -94,11 +69,6 @@ export class EvenementService implements IEvenementService {
     return this.httpClient.get<PageResponse<Evenement>>(
       `${this.apiUrl}/absences/type/${type}`,
       { params }
-=======
-  getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences/type/${type}`
->>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
     ).pipe(
       catchError(error => {
         console.error('Erreur lors de la récupération des événements par type :', error);
@@ -111,35 +81,5 @@ export class EvenementService implements IEvenementService {
   // }
 
 
-<<<<<<< HEAD
-=======
-=======
-getEvenements(): Observable<PageResponse<Evenement>> {
-  return this.httpClient.get<PageResponse<Evenement>>(
-    `${this.apiUrl}/absences`,
-  );
-}
-
-  getEvenementsByEtudiantID(etudiantId: string | number): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/etudiant/${etudiantId}`);
-  }
-  
-  validerJustification(absenceId: string | number ): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/valider/${absenceId}`, {});
-  }
-
-  getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${etat}`);
-  }
-
-  getEvenementsByType(type: string): Observable<PageResponse<Evenement>> {
-    return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${type}`);
-  }
-
-  rejeterJustification(absenceId: string | number): Observable<any> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/rejeter/${absenceId}`, {});
-  }
->>>>>>> 812747f151929131edf7b6af79828d6b040338b4
->>>>>>> 5b4d2f775654d271145af8053a65585b358aee4c
 
 }
