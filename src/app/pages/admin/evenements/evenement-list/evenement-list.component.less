@@ -1,4 +1,4 @@
-    .pagination-container {
+.pagination-container {
     margin-top: 20px;
     text-align: center;
     }
@@ -42,4 +42,23 @@
     background-color: #007bff;
     color: white;
     font-weight: bold;
+    }
+
+    /* Animation de spin pour le loader */
+    @keyframes spin {
+    to { transform: rotate(360deg); }
+    }
+
+    .animate-spin {
+    animation: spin 1s linear infinite;
+    }
+
+    /* Animation de pulse pour le skeleton */
+    @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+    }
+
+    .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }

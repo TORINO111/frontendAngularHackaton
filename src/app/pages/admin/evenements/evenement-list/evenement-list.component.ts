@@ -28,6 +28,7 @@ export class EvenementListComponent implements OnInit {
   message: string = '';
   selectedType: string = '';
   selectedEtat: string = '';
+    isLoading: boolean = false;
 
   constructor(
     private evenementService: EvenementService,
@@ -40,73 +41,88 @@ export class EvenementListComponent implements OnInit {
     this.loadPageFromResponse(resolvedData);
   }
 
-  applyFilter(page: number = 0): void {
-    this.currentPage = page;
-    if (!this.selectedType) {
-      this.loadPage(page); // Si aucun type sélectionné, revenir au chargement paginé normal
-    } else {
-      this.evenementService.getEvenementsByType(this.selectedType, page).subscribe({
-        next: (response) => {
-          this.loadPageFromResponse(response);
-        },
-        error: (error) => {
-          console.error('Erreur lors du filtrage par type:', error);
-          this.evenementsFiltres = [];
-          this.totalItems = 0;
-          this.totalPages = 0;
-          this.message = 'Erreur lors du filtrage par type.';
-        }
-      });
-    }
+ applyFilter(page: number = 0): void {
+  this.isLoading = true;
+  this.currentPage = page;
+  
+  if (!this.selectedType) {
+    this.loadPage(page); // Gère déjà son loading
+  } else {
+    this.evenementService.getEvenementsByType(this.selectedType, page).subscribe({
+      next: (response) => {
+        this.loadPageFromResponse(response);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors du filtrage par type:', error);
+        this.isLoading = false;
+        this.message = 'Erreur lors du filtrage par type';
+      }
+    });
   }
+}
 
   filtrerParEtat(page: number = 0): void {
-    this.currentPage = page;
-    if (this.selectedEtat) {
-      this.evenementService.getEvenementsByEtat(this.selectedEtat, page).subscribe({
-        next: (response) => {
-          this.loadPageFromResponse(response);
-          // Retirer les conditions spécifiques ici, la logique de filtrage doit être dans le backend
-        },
-        error: (error) => {
-          console.error('Erreur lors du filtrage par état:', error);
-          this.evenementsFiltres = [];
-          this.totalItems = 0;
-          this.totalPages = 0;
-          this.message = 'Erreur lors du filtrage par état.';
-        }
-      });
-    } else {
-      this.loadPage(page); // Si aucun état sélectionné, revenir au chargement paginé normal
-    }
+  this.isLoading = true; // Active le loading
+  this.currentPage = page;
+  
+  if (this.selectedEtat) {
+    this.evenementService.getEvenementsByEtat(this.selectedEtat, page).subscribe({
+      next: (response) => {
+        this.loadPageFromResponse(response);
+        this.isLoading = false; // Désactive le loading
+      },
+      error: (error) => {
+        console.error('Erreur lors du filtrage par état:', error);
+        this.isLoading = false; // Désactive le loading même en cas d'erreur
+        this.message = 'Erreur lors du filtrage par état';
+      }
+    });
+  } else {
+    this.loadPage(page); // Cette méthode gère déjà son loading
   }
+}
 
   filtrerParType(): void {
+      this.isLoading = true; // Optionnel - le loading sera géré par applyFilter
     this.applyFilter(0); // Réinitialiser la page à 0 lors d'un nouveau filtre de type
   }
 
   filtrerParEtatTrigger(): void {
+      this.isLoading = true; // Optionnel - le loading sera géré par filtrerParEtat
     this.filtrerParEtat(0); // Réinitialiser la page à 0 lors d'un nouveau filtre d'état
   }
 
   goToPage(page: number): void {
-    if (page >= 0 && page < this.totalPages) {
-      this.currentPage = page;
-      if (this.selectedType) {
-        this.applyFilter(page);
-      } else if (this.selectedEtat) {
-        this.filtrerParEtat(page);
-      } else {
-        this.loadPage(page);
-      }
+  if (page >= 0 && page < this.totalPages) {
+    this.isLoading = true;
+    this.currentPage = page;
+    
+    if (this.selectedType) {
+      this.applyFilter(page);
+    } else if (this.selectedEtat) {
+      this.filtrerParEtat(page);
+    } else {
+      this.loadPage(page);
     }
   }
+}
 
-  loadPage(page: number): void {
-    this.evenementService.getEvenements(page).subscribe(response => {
-      this.loadPageFromResponse(response);
+   loadPage(page: number): void {
+    this.isLoading = true;
+    this.evenementService.getEvenements(page).subscribe({
+      next: (response) => {
+        this.loadPageFromResponse(response);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erreur de chargement:', error);
+        this.isLoading = false;
+        this.message = 'Erreur lors du chargement des données';
+      }
     });
   }
+
 
   private loadPageFromResponse(response: PageResponse<Evenement>): void {
     this.pageResponse = response;
