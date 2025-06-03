@@ -6,13 +6,8 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../../../../environments/environment.prod';
 import { User } from '../../../models/user.model';
 
-export interface Token {
-  value: string;
-
-}
-
 interface AuthResponse {
-  token: Token;
+  token: string;
   user: User;
 }
 
@@ -38,16 +33,15 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    const storedToken = localStorage.getItem(this.tokenKey);
-    return storedToken;
+    return localStorage.getItem(this.tokenKey);
   }
 
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
-  saveToken(token: Token): void {
-    localStorage.setItem(this.tokenKey, token.value);
+  saveToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
   }
 
   getCurrentUser(): Observable<User> {
