@@ -47,9 +47,9 @@ export interface Evenement{
     heureDebut: string,
     heureFin: string,
     justification?: string,
-    justificatifImage: string,
+    justificatifImage?: string[],
     etudiant: Etudiant,
-    Session: Session,
+    session: Session,
 }
 
 export interface PageResponse<T> {
