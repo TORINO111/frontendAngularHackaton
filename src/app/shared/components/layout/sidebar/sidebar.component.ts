@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit{
       endYear = year;
     }
 
-    return `Année scolaire ${startYear} - ${endYear}`;
+    return `Année ${startYear} - ${endYear}`;
   }
 
 }
