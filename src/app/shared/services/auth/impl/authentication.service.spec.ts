@@ -11,7 +11,7 @@ interface AuthResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthServiceProd {
   private readonly apiUrl = environment.apiUrl;
   private tokenKey = 'authToken';
 

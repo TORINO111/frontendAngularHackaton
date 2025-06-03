@@ -19,13 +19,6 @@ export class UserStore {
 
     constructor(private http: HttpClient) {}
 
-    loadUserById(id: string) {
-        this.http.get<User>(`/api/users/${id}`).pipe(
-        tap(user => {
-            this._user.set(user);
-        })
-        ).subscribe();
-    }
 
     setUser(user: User | null) {
         this._user.set(user);

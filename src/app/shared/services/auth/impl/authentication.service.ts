@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   saveToken(token: Token): void {
-    localStorage.setItem(this.tokenKey, token.value); // Utilisez token.value (ou le nom de votre propriété)
+    localStorage.setItem(this.tokenKey, token.value);
   }
 
   getCurrentUser(): Observable<User> {

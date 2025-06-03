@@ -1,26 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../../services/auth/impl/authentication.service';
+import { AuthService } from '../../../services/auth/impl/authentication.service';
 import { Router } from '@angular/router';
-import { AuthStore } from '../../../../stores/auth.store';
+import { UserStore } from '../../../../stores/user.store';
 
 @Component({
   selector: 'app-sidebar',
   imports: [],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
+  standalone: true
 })
 export class SidebarComponent implements OnInit{
-  @Input() prenom: string = '';
-  @Input() nom: string = '';
+  fullName = '';
 
   constructor(
-    private authService: AuthenticationService,
+    private authService: AuthService,
     private router: Router,
-    private authStore: AuthStore
+    private userStore: UserStore
   ) {}
-  
+
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.fullName = this.userStore.userFullName();
   }
   
   logout() {

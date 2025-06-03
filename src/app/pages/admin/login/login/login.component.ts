@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../shared/services/auth/impl/authentication.service';
 import { UserStore } from '../../../../stores/user.store';
 import { tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -36,28 +37,24 @@ export class LoginComponent {
 
       this.authService.login(login, password)
         .pipe(
-          tap((response) => {
-            // Si la connexion réussit et que le backend renvoie l'utilisateur et le token
-            if (response && response.user && response.token) {
-              this.userStore.setUser(response.user); // Stockez l'utilisateur dans le store
-              this.authService.saveToken(response.token); // Sauvegardez le token via AuthService
-            }
-            // Gestion du cas où seul le token est renvoyé (votre code précédent)
-            else if (response && response.token) {
-              this.authService.saveToken(response.token);
-              this.authService.getCurrentUser().subscribe({
-                next: (user) => {
-                  this.userStore.setUser(user);
-                },
-                error: (error) => {
-                  console.error('Erreur lors de la récupération des infos utilisateur', error);
-                  this.messageSucces = 'Connexion réussie, mais erreur lors de la récupération des informations utilisateur.';
-                  this.router.navigate(['/evenements']); // Redirigez même en cas d'erreur de récupération (à adapter)
-                },
-              });
-            } else {
-              console.log( 'Échec de la connexion : réponse inattendue du serveur.');
-            }
+          tap(response => {
+            this.authService.saveToken(response.token);
+            const user$ = response.user
+              ? of(response.user)
+              : this.authService.getCurrentUser();
+
+            user$.subscribe({
+              next: (user) => {
+                this.userStore.setUser(user);
+                this.router.navigate(['/evenements']);
+                this.messageSucces = 'Connexion réussie !';
+              },
+              error: (error) => {
+                console.error('Erreur récupération utilisateur :', error);
+                this.messageSucces = 'Connexion réussie, mais récupération utilisateur échouée.';
+                this.router.navigate(['/evenements']);
+              }
+            });
           })
         )
         .subscribe({
