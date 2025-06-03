@@ -28,4 +28,24 @@ export class SidebarComponent implements OnInit{
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  getSchoolYearRange(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+
+    let startYear: number;
+    let endYear: number;
+
+    if (month >= 9) {
+      startYear = year;
+      endYear = year + 1;
+    } else {
+      startYear = year - 1;
+      endYear = year;
+    }
+
+    return `Année scolaire ${startYear} - ${endYear}`;
+  }
+
 }
