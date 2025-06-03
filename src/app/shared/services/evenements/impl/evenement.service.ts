@@ -17,7 +17,7 @@ export class EvenementService implements IEvenementService {
   
   constructor(private httpClient: HttpClient) { }
 
-  getEvenements(page: number=0, size: number=10): Observable<PageResponse<Evenement>> {
+  getEvenements(page: number=0, size: number=4): Observable<PageResponse<Evenement>> {
     let params = new HttpParams();
     if (page !== undefined) params = params.set('page', page);
     if (size !== undefined) params = params.set('size', size);
@@ -48,7 +48,7 @@ export class EvenementService implements IEvenementService {
   //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/${etat}`);
   // }
 
-  getEvenementsByEtat(etat: string, page: number = 0, size: number = 10): Observable<PageResponse<Evenement>> {
+  getEvenementsByEtat(etat: string, page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
     let params = new HttpParams()
       .set('page', page)
       .set('size', size);
@@ -63,7 +63,7 @@ export class EvenementService implements IEvenementService {
     );
   }
 
-  getEvenementsByType(type: string, page: number = 0, size: number = 10): Observable<PageResponse<Evenement>> {
+  getEvenementsByType(type: string, page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
     let params = new HttpParams()
       .set('page', page)
       .set('size', size);
