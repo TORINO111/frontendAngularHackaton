@@ -13,7 +13,8 @@ export class EvenementService implements IEvenementService {
 
   private http = Inject(HttpClient);
   private apiUrl = environment.apiUrl;
-
+  private nomEndpoints = "absences";
+  
   constructor(private httpClient: HttpClient) { }
 
   getEvenements(page: number=0, size: number=10): Observable<PageResponse<Evenement>> {
@@ -22,13 +23,13 @@ export class EvenementService implements IEvenementService {
     if (size !== undefined) params = params.set('size', size);
 
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences`,
+      `${this.apiUrl}/${this.nomEndpoints}`,
       { params }
     );
   }
 
   getEvenementById(id: string): Observable<OneEvenement> {
-    return this.httpClient.get<OneEvenement>(`${this.apiUrl}/absences/${id}`);
+    return this.httpClient.get<OneEvenement>(`${this.apiUrl}/${this.nomEndpoints}/${id}`);
   }
 
   // getEvenementsByEtudiantID(etudiantId: string): Observable<PageResponse<Evenement>> {
@@ -36,11 +37,11 @@ export class EvenementService implements IEvenementService {
   // }
   
   validerAbsence(absenceId: string ): Observable<void> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/valider`, {});
+    return this.httpClient.put<void>(`${this.apiUrl}/${this.nomEndpoints}/${absenceId}/valider`, {});
   }
 
   rejeterAbsence(absenceId: string | number): Observable<any> {
-    return this.httpClient.put<void>(`${this.apiUrl}/absences/${absenceId}/rejeter`, {});
+    return this.httpClient.put<void>(`${this.apiUrl}/${this.nomEndpoints}/${absenceId}/rejeter`, {});
   }
 
   // getEvenementsByEtat(etat: string): Observable<PageResponse<Evenement>> {
@@ -52,7 +53,7 @@ export class EvenementService implements IEvenementService {
       .set('page', page)
       .set('size', size);
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences/etat/${etat}`,
+      `${this.apiUrl}/${this.nomEndpoints}/etat/${etat}`,
       { params }
     ).pipe(
       catchError(error => {
@@ -67,7 +68,7 @@ export class EvenementService implements IEvenementService {
       .set('page', page)
       .set('size', size);
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/absences/type/${type}`,
+      `${this.apiUrl}/${this.nomEndpoints}/type/${type}`,
       { params }
     ).pipe(
       catchError(error => {
