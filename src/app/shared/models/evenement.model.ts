@@ -49,6 +49,7 @@ export interface Evenement{
     justification?: string,
     justificatifImage: string,
     etudiant: Etudiant,
+    Session: Session,
 }
 
 export interface PageResponse<T> {
