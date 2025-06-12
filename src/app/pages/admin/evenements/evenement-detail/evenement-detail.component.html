@@ -133,7 +133,16 @@
             <div class="border-2 border-dashed border-gray-300 rounded-2xl p-8 flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 to-white min-h-[240px] transition-all hover:border-[#E69B3A] hover:bg-[#fdf8f0] group">
                 <ng-container *ngIf="evenement?.justificatifImage; else noImage">
                 <!-- MODIFIÉ : Image cliquable pour ouvrir la modale -->
-                <img [src]="evenement.justificatifImage" (click)="openImageModal(evenement!.justificatifImage!)" alt="Pièce justificative" class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 group-hover:scale-105">
+                <!-- <img [src]="evenement.justificatifImage" (click)="openImageModal(evenement!.justificatifImage!)" alt="Pièce justificative" class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 group-hover:scale-105"> -->
+                
+                <div *ngIf="evenement?.justificatifImage?.length; else noImage" class="flex gap-4 flex-wrap justify-center">
+                    <img *ngFor="let imgUrl of evenement?.justificatifImage"
+                        [src]="imgUrl"
+                        (click)="openImageModal(imgUrl)"
+                        alt="Pièce justificative"
+                        class="max-w-[200px] max-h-[200px] object-contain cursor-pointer transition-transform duration-300 hover:scale-105 rounded shadow" />
+                </div>
+                
                 </ng-container>
                 <ng-template #noImage>
                 <svg class="w-16 h-16 text-gray-400 mb-4 group-hover:text-[#E69B3A] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -168,22 +177,21 @@
 
 <!-- NOUVEAU : Modale pour afficher l'image en grand avec animations -->
 <div *ngIf="isImageModalOpen" 
-     (click)="closeImageModal()"
-     class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 transition-opacity duration-300"
-     [ngClass]="{'opacity-100': isImageModalOpen, 'opacity-0': !isImageModalOpen}">
+    (click)="closeImageModal()"
+    class="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 transition-opacity duration-300"
+    [ngClass]="{'opacity-100': isImageModalOpen, 'opacity-0': !isImageModalOpen}">
 
-  <div (click)="$event.stopPropagation()" 
-       class="relative bg-white p-2 rounded-lg shadow-2xl max-w-4xl max-h-[90vh] transition-all duration-300 ease-in-out"
-       [ngClass]="{'scale-100 opacity-100': isImageModalOpen, 'scale-95 opacity-0': !isImageModalOpen}">
-       
+    <div (click)="$event.stopPropagation()" 
+    class="relative bg-white p-2 rounded-lg shadow-2xl max-w-4xl max-h-[90vh] transition-all duration-300 ease-in-out"
+    [ngClass]="{'scale-100 opacity-100': isImageModalOpen, 'scale-95 opacity-0': !isImageModalOpen}">
     <button (click)="closeImageModal()" 
             class="absolute top-0 right-0 -m-3 bg-white rounded-full p-2 text-gray-800 hover:bg-gray-200 transition-all shadow-lg z-10"
             aria-label="Fermer la vue de l'image">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-      </svg>
+    </svg>
     </button>
     
     <img [src]="modalImageUrl" alt="Pièce justificative en grand" class="max-w-full max-h-[85vh] object-contain rounded-md">
-  </div>
+</div>
 </div>

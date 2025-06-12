@@ -79,7 +79,7 @@ export class EvenementDetailComponent implements OnInit {
     // Laisse le temps à l'animation de sortie de se terminer avant de vider l'URL
     setTimeout(() => {
         this.modalImageUrl = null;
-    }, 300); 
+    }, 300);
   }
 
   validerAbsence(id: string | undefined): void {
