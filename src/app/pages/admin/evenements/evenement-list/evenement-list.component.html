@@ -177,10 +177,12 @@
               <td class="px-6 py-4 text-center text-sm font-medium">
                 <ng-container
                   *ngIf="evenement.type !== 'RETARD ' && evenement.etat === 'ENATTENTE'; else retardTemplate">
-                  <a [routerLink]="['/evenementDetail', evenement.id]" matButton="elevated"
+                  <!-- MODIFIÉ : Remplacement de routerLink par un bouton avec (click) pour activer le chargement -->
+                  <button (click)="goToDetail(evenement.id)"
+                    class="text-[#E69B3A] hover:text-[#c4822f] hover:underline focus:outline-none font-semibold"
                     matTooltip="Voir les détails de l'absence" aria-label="Lien pour voir les détails de l'absence">
                     Voir
-                  </a>
+                  </button>
                 </ng-container>
                 <ng-template #retardTemplate>
                 </ng-template>

@@ -6,14 +6,14 @@ import { EvenementService } from '../../../../shared/services/evenements/impl/ev
 import { HeaderComponent } from "../../../../shared/components/layout/header/header.component";
 import { HighlightDirective } from '../../../../directives/highlight.directive';
 import { EventResolver } from '../../../../resolvers/event.resolver';
-import { ActivatedRoute } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+// MODIFIÉ : Ajout de 'Router' pour la navigation programmatique
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+// import { FormsModule } from '@angular/forms';
 import { catchError, Observable, throwError } from 'rxjs';
 @Component({
   selector: 'app-evenement-list',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, RouterModule, FormsModule ],
+  imports: [CommonModule, SidebarComponent, RouterModule, ],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less',
 })
@@ -27,16 +27,23 @@ export class EvenementListComponent implements OnInit {
   message: string = '';
   selectedType: string = '';
   selectedEtat: string = '';
-    isLoading: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private evenementService: EvenementService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router // NOUVEAU : Injection du Router pour la navigation
   ) {}
 
   ngOnInit(): void {
     const resolvedData = this.route.snapshot.data['evenementsPage'];
     this.loadPageFromResponse(resolvedData);
+  }
+
+  // NOUVEAU : Méthode pour naviguer vers la page de détail en affichant le chargement
+  goToDetail(id: number): void {
+    this.isLoading = true; // Active l'indicateur de chargement
+    this.router.navigate(['/evenementDetail', id]); // Navigue vers la page de détail
   }
 
   applyFilter(page: number = 0): void {
@@ -82,13 +89,11 @@ export class EvenementListComponent implements OnInit {
   }
 
   filtrerParType(): void {
-      this.isLoading = true; // Optionnel - le loading sera géré par applyFilter
-    this.applyFilter(0); // Réinitialiser la page à 0 lors d'un nouveau filtre de type
+    this.applyFilter(0);
   }
 
   filtrerParEtatTrigger(): void {
-      this.isLoading = true; // Optionnel - le loading sera géré par filtrerParEtat
-    this.filtrerParEtat(0); // Réinitialiser la page à 0 lors d'un nouveau filtre d'état
+    this.filtrerParEtat(0);
   }
 
   goToPage(page: number): void {
