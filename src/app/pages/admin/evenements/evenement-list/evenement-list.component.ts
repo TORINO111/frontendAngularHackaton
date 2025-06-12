@@ -8,12 +8,12 @@ import { HighlightDirective } from '../../../../directives/highlight.directive';
 import { EventResolver } from '../../../../resolvers/event.resolver';
 // MODIFIÉ : Ajout de 'Router' pour la navigation programmatique
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-// import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { catchError, Observable, throwError } from 'rxjs';
 @Component({
   selector: 'app-evenement-list',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, RouterModule, ],
+  imports: [CommonModule, SidebarComponent, RouterModule, FormsModule],
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less',
 })
@@ -41,7 +41,7 @@ export class EvenementListComponent implements OnInit {
   }
 
   // NOUVEAU : Méthode pour naviguer vers la page de détail en affichant le chargement
-  goToDetail(id: number): void {
+  goToDetail(id: string | number): void {
     this.isLoading = true; // Active l'indicateur de chargement
     this.router.navigate(['/evenementDetail', id]); // Navigue vers la page de détail
   }

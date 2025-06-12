@@ -135,14 +135,14 @@
         <table class="min-w-full">
           <thead class="bg-[#4A3B2F]">
             <tr>
-              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Matricule
-              </th>
-              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Nom complet
-              </th>
+              <!-- <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Matricule
+              </th> -->
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Nom complet</th>
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Classe</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Cours</th>
+              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Bâtiment-Salle</th>
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Date</th>
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Horaire</th>
-              <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Cours</th>
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Etat</th>
               <th
                 class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider rounded-tr-lg">
@@ -157,28 +157,24 @@
               </td>
             </tr> -->
             <tr *ngFor="let evenement of evenementsFiltres">
-              <td class="text-center">{{ evenement.etudiant.matricule }}</td>
+              <!-- <td class="text-center">{{ evenement.etudiant.matricule }}</td> -->
               <td class="text-center">{{ evenement.etudiant.prenom }} {{ evenement.etudiant.nom }}</td>
-              <td class="text-center">{{ evenement.etudiant.classe.niveau }} {{ evenement.etudiant.classe.filiere }}
-              </td>
+              <td class="text-center">{{ evenement.etudiant.classe.niveau }} {{ evenement.etudiant.classe.filiere }}</td>
+              <td class="text-center">{{ evenement.session.cours.libelle }}</td>
+              <td class="text-center">{{ evenement.session.batiment }}-{{ evenement.session.salle }}</td>
               <td class="text-center">{{ evenement.dateDebut }}</td>
               <td class="text-center">{{ evenement.heureDebut }}-{{ evenement.heureFin }}</td>
-              <td class="text-center">Cours</td>
               <td class="text-center">
-                <span [ngClass]="{
-              'text-green-600 font-semibold': evenement.etat == 'JUSTIFIE',
-              'text-red-600 font-semibold': evenement.etat == 'NOJUSTIFIE',
-              'text-yellow-500 font-semibold': evenement.etat == 'ENATTENTE'
-            }">
-                  {{ evenement.etat == 'JUSTIFIE' ? 'Justifié' : (evenement.etat == 'NOJUSTIFIE' ? 'Non justifié' : 'En
-                  attente') }}
+                <span [ngClass]="{'text-green-600 font-semibold': evenement.etat == 'JUSTIFIE',
+                                  'text-red-600 font-semibold': evenement.etat == 'NOJUSTIFIE',
+                                  'text-yellow-500 font-semibold': evenement.etat == 'ENATTENTE'}">
+                  {{evenement.etat == 'JUSTIFIE' ? 'Justifié' : evenement.etat == 'NOJUSTIFIE' ? 'Non justifié' : 'En attente' }}
                 </span>
               </td>
               <td class="px-6 py-4 text-center text-sm font-medium">
                 <ng-container
                   *ngIf="evenement.type !== 'RETARD ' && evenement.etat === 'ENATTENTE'; else retardTemplate">
-                  <!-- MODIFIÉ : Remplacement de routerLink par un bouton avec (click) pour activer le chargement -->
-                  <button (click)="goToDetail(evenement.id)"
+                  <button (click)=goToDetail(evenement.id)
                     class="text-[#E69B3A] hover:text-[#c4822f] hover:underline focus:outline-none font-semibold"
                     matTooltip="Voir les détails de l'absence" aria-label="Lien pour voir les détails de l'absence">
                     Voir

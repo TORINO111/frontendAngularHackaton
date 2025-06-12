@@ -12,7 +12,16 @@ export interface Session {
     id: number;
     heureDebut: string;
     heureFin: string;
-    cours: Cours;
     date: string,
-    type: Type
+    salle: Salle,
+    cours: Cours,
+    batiment: Batiment
+}
+
+export interface Salle{
+    salle: string
+}
+
+export interface Batiment{
+    batiment: string
 }
