@@ -98,7 +98,7 @@
           <select
               [disabled]="isLoading"
             class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
-            [(ngModel)]="selectedType" (change)="filtrerParType()">
+            [(ngModel)]="selectedType" (change)="filtrerEvenements()">
             <option value="">Filtre par type</option>
             <option value="RETARD" [disabled]="selectedEtat === 'JUSTIFIE'">Retard</option>
             <option value="ABSENCE" [disabled]="selectedEtat === 'NON_JUSTIFIE'">Absence</option>
@@ -115,7 +115,7 @@
           <select
               [disabled]="isLoading"
             class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
-            [(ngModel)]="selectedEtat" (change)="filtrerParEtat()">
+            [(ngModel)]="selectedEtat" (change)="filtrerEvenements()">
             <option value="">Filtre par etat</option>
             <option value="JUSTIFIE">Justifié</option>
             <option value="NOJUSTIFIE">Non justifié</option>

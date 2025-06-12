@@ -32,6 +32,31 @@ export class EvenementService implements IEvenementService {
     return this.httpClient.get<OneEvenement>(`${this.apiUrl}/${this.nomEndpoints}/${id}`);
   }
 
+  getEvenementsFiltre(etat: string = '', type: string = '', page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    if (etat) {
+      params = params.set('etat', etat);
+    }
+
+    if (type) {
+      params = params.set('type', type);
+    }
+
+    return this.httpClient.get<PageResponse<Evenement>>(
+      `${this.apiUrl}/${this.nomEndpoints}/filtre/etat-type`,
+      { params }
+    ).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la récupération des événements filtrés :', error);
+        return throwError(() => new Error('Impossible de charger les événements filtrés.'));
+      })
+    );
+  }
+
+
   // getEvenementsByEtudiantID(etudiantId: string): Observable<PageResponse<Evenement>> {
   //   return this.httpClient.get<PageResponse<Evenement>>(`${this.apiUrl}/absences/etudiant/${etudiantId}`);
   // }
