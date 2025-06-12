@@ -42,8 +42,8 @@ export class EvenementListComponent implements OnInit {
 
   // NOUVEAU : Méthode pour naviguer vers la page de détail en affichant le chargement
   goToDetail(id: string | number): void {
-    this.isLoading = true; // Active l'indicateur de chargement
-    this.router.navigate(['/evenementDetail', id]); // Navigue vers la page de détail
+    this.isLoading = true;
+    this.router.navigate(['/evenementDetail', id]);
   }
 
   filtrerEvenements(page: number = 0): void {
