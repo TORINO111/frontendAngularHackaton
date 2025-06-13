@@ -195,28 +195,40 @@
       </div>
 
       <!-- Pagination -->
-      <div class="mt-6 flex items-center justify-between">
-        <!-- Pagination -->
-        <div *ngIf="totalPages > 1" class="pagination-container">
-          <div class="pagination-controls">
-            <!-- Précédent -->
-            <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">
-              « Précédent
-            </button>
+<div class="mt-6 flex justify-center">
+  <div *ngIf="totalPages > 1" class="flex items-center space-x-2">
+    <!-- Précédent -->
+    <button
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 0"
+      class="px-4 py-2 text-sm rounded-lg border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
+    >
+      « Précédent
+    </button>
 
-            <!-- Pages -->
-            <ng-container *ngFor="let page of getPages()">
-              <button (click)="goToPage(page)" [class.active]="page === currentPage">
-                {{ page + 1 }}
-              </button>
-            </ng-container>
+    <!-- Pages -->
+    <ng-container *ngFor="let page of getPages()">
+      <button
+        (click)="goToPage(page)"
+        [class.bg-blue-600]="page === currentPage"
+        [class.text-white]="page === currentPage"
+        [class.font-semibold]="page === currentPage"
+        class="px-3 py-1.5 text-sm rounded-lg border hover:bg-blue-100 transition"
+      >
+        {{ page + 1 }}
+      </button>
+    </ng-container>
 
-            <!-- Suivant -->
-            <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages - 1">
-              Suivant »
-            </button>
-          </div>
-        </div>
+    <!-- Suivant -->
+    <button
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage >= totalPages - 1"
+      class="px-4 py-2 text-sm rounded-lg border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
+    >
+      Suivant »
+    </button>
+  </div>
+
 
       </div>
     </main>

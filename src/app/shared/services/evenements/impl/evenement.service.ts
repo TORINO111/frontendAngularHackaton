@@ -46,8 +46,7 @@ export class EvenementService implements IEvenementService {
     }
 
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/${this.nomEndpoints}/filtre/etat-type`,
-      { params }
+      `${this.apiUrl}/${this.nomEndpoints}/filtre/etat-type`, { params }
     ).pipe(
       catchError(error => {
         console.error('Erreur lors de la récupération des événements filtrés :', error);
