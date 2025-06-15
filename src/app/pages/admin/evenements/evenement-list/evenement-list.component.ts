@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { SidebarComponent } from "../../../../shared/components/layout/sidebar/sidebar.component";
 import { Evenement, PageResponse } from '../../../../shared/models/evenement.model';
 import { EvenementService } from '../../../../shared/services/evenements/impl/evenement.service';
-import { HeaderComponent } from "../../../../shared/components/layout/header/header.component";
-import { HighlightDirective } from '../../../../directives/highlight.directive';
-import { EventResolver } from '../../../../resolvers/event.resolver';
-// MODIFIÉ : Ajout de 'Router' pour la navigation programmatique
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { catchError, Observable, throwError } from 'rxjs';
+
 @Component({
   selector: 'app-evenement-list',
   standalone: true,
@@ -17,7 +15,7 @@ import { catchError, Observable, throwError } from 'rxjs';
   templateUrl: './evenement-list.component.html',
   styleUrl: './evenement-list.component.less',
 })
-export class EvenementListComponent implements OnInit {
+export class EvenementListComponent implements OnInit, OnDestroy {
   pageResponse: PageResponse<Evenement> | undefined;
   evenements: Evenement[] = [];
   evenementsFiltres: Evenement[] = [];
@@ -25,32 +23,49 @@ export class EvenementListComponent implements OnInit {
   totalItems: number = 0;
   currentPage: number = 0;
   message: string = '';
+  isLoading: boolean = false;
+
+  // --- Filtres ---
   selectedType: string = '';
   selectedEtat: string = '';
-  isLoading: boolean = false;
+  matriculeFilter: string = '';
+
+  private filterSubject = new Subject<void>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private evenementService: EvenementService,
     private route: ActivatedRoute,
-    private router: Router // NOUVEAU : Injection du Router pour la navigation
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const resolvedData = this.route.snapshot.data['evenementsPage'];
     this.loadPageFromResponse(resolvedData);
+
+    this.filterSubject.pipe(
+      debounceTime(400),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.filtrerEvenements();
+    });
   }
 
-  // NOUVEAU : Méthode pour naviguer vers la page de détail en affichant le chargement
-  goToDetail(id: string | number): void {
-    this.isLoading = true;
-    this.router.navigate(['/evenementDetail', id]);
+  onFilterChange(): void {
+    this.filterSubject.next();
   }
 
   filtrerEvenements(page: number = 0): void {
+    // Si l'utilisateur a commencé à taper un matricule mais ne l'a pas terminé, on ne fait rien.
+    if (this.matriculeFilter.length > 0 && this.matriculeFilter.length < 10) {
+      return; // On sort de la fonction et on attend la suite de la saisie.
+    }
+
+    // Le code suivant ne s'exécute que si le matricule est vide ou complet (10 caractères).
     this.isLoading = true;
     this.currentPage = page;
 
-    this.evenementService.getEvenementsFiltre(this.selectedEtat, this.selectedType, page).subscribe({
+    this.evenementService.getEvenementsFiltre(this.selectedEtat, this.selectedType, this.matriculeFilter, page).subscribe({
       next: (response) => {
         this.loadPageFromResponse(response);
         this.isLoading = false;
@@ -59,18 +74,12 @@ export class EvenementListComponent implements OnInit {
         console.error('Erreur lors du filtrage :', error);
         this.isLoading = false;
         this.message = 'Erreur lors du filtrage';
+        this.evenementsFiltres = [];
+        this.totalItems = 0;
+        this.totalPages = 0;
       }
     });
   }
-
-
-  // filtrerParType(): void {
-  //   this.applyFilter(0);
-  // }
-
-  // filtrerParEtatTrigger(): void {
-  //   this.filtrerParEtat(0);
-  // }
 
   goToPage(page: number): void {
     if (page >= 0 && page < this.totalPages) {
@@ -78,26 +87,15 @@ export class EvenementListComponent implements OnInit {
     }
   }
 
-  loadPage(page: number): void {
+  goToDetail(id: string | number): void {
     this.isLoading = true;
-    this.evenementService.getEvenements(page).subscribe({
-      next: (response) => {
-        this.loadPageFromResponse(response);
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Erreur de chargement:', error);
-        this.isLoading = false;
-        this.message = 'Erreur lors du chargement des données';
-      }
-    });
+    this.router.navigate(['/evenementDetail', id]);
   }
-
 
   private loadPageFromResponse(response: PageResponse<Evenement>): void {
     this.pageResponse = response;
     this.evenements = response.data;
-    this.evenementsFiltres = [...this.evenements]; // Mettre à jour la liste filtrée avec les données de la page
+    this.evenementsFiltres = [...this.evenements];
     this.totalItems = response.totalItems;
     this.currentPage = response.currentPage;
     this.totalPages = response.totalPages;
@@ -105,6 +103,26 @@ export class EvenementListComponent implements OnInit {
   }
 
   getPages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i);
+    const maxPagesToShow = 5;
+    const allPages = Array.from({ length: this.totalPages }, (_, i) => i);
+    
+    if (this.totalPages <= maxPagesToShow) {
+        return allPages;
+    }
+
+    let startPage = Math.max(0, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = startPage + maxPagesToShow - 1;
+
+    if (endPage >= this.totalPages) {
+        endPage = this.totalPages - 1;
+        startPage = endPage - maxPagesToShow + 1;
+    }
+
+    return allPages.slice(startPage, endPage + 1);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

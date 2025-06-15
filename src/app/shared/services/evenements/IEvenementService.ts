@@ -1,13 +1,11 @@
 import { Observable } from 'rxjs';
-import { Evenement, EvenementFiltres, PageResponse } from '../../models/evenement.model';
+import { Evenement, PageResponse } from '../../models/evenement.model';
 
 export interface IEvenementService {
     
-    getEvenements():Observable <PageResponse<Evenement>>;
+    getEvenements(page: number, size: number): Observable<PageResponse<Evenement>>;
 
-    // getEvenementByID(evenementId: string | number): Observable<Evenement>;
-
-    // getEvenementsByEtudiantID(etudiantId: number): Observable<PageResponse<Evenement>>;
+    getEvenementsFiltre(etat: string, type: string, matricule: string, page: number, size: number): Observable<PageResponse<Evenement>>;
 
     getEvenementsByEtat(etat: string, page: number): Observable<PageResponse<Evenement>>;
 
@@ -16,5 +14,4 @@ export interface IEvenementService {
     validerAbsence(absenceId: string | number): Observable<void>;
 
     rejeterAbsence(eventId: string | number): Observable<void>;
-
 }

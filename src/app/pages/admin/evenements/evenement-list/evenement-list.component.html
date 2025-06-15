@@ -92,11 +92,24 @@
       </div>
 
       <!-- Filtres -->
-      <div class="flex justify-le mb-6">
+      <div class="flex items-center space-x-4 mb-6">
+        <!-- Champ de saisie pour le matricule -->
+        <div class="relative">
+          <input
+            type="text"
+            [disabled]="isLoading"
+            class="py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
+            placeholder="Filtrer par matricule..."
+            [(ngModel)]="matriculeFilter"
+            (input)="onFilterChange()"
+            maxlength="10"
+          />
+        </div>
 
+        <!-- Filtre par type -->
         <div class="relative">
           <select
-              [disabled]="isLoading"
+            [disabled]="isLoading"
             class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
             [(ngModel)]="selectedType" (change)="filtrerEvenements()">
             <option value="">Tous les types</option>
@@ -111,9 +124,10 @@
           </div>
         </div>
 
+        <!-- Filtre par état -->
         <div class="relative">
           <select
-              [disabled]="isLoading"
+            [disabled]="isLoading"
             class="appearance-none py-2 pl-4 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400"
             [(ngModel)]="selectedEtat" (change)="filtrerEvenements()">
             <option value="">Tous les états</option>
@@ -135,8 +149,6 @@
         <table class="min-w-full">
           <thead class="bg-[#4A3B2F]">
             <tr>
-              <!-- <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Matricule
-              </th> -->
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Nom complet</th>
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Classe</th>
               <th class="px-6 py-3 text-center text-xs font-medium text-[#E69B3A] uppercase tracking-wider">Cours</th>
@@ -150,14 +162,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <!-- Chargement
-            <tr *ngIf="evenements.length === 0 && !pageResponse">
-              <td colspan="8" class="px-6 py-4 text-center">
-                <p>Chargement des absences...</p>
-              </td>
-            </tr> -->
             <tr *ngFor="let evenement of evenementsFiltres" class="h-20">
-              <!-- <td class="text-center">{{ evenement.etudiant.matricule }}</td> -->
               <td class="text-center">{{ evenement.etudiant.prenom }} {{ evenement.etudiant.nom }}</td>
               <td class="text-center">{{ evenement.etudiant.classe.niveau }} {{ evenement.etudiant.classe.filiere }}</td>
               <td class="text-center">{{ evenement.session.cours.libelle }}</td>
@@ -186,50 +191,39 @@
             </tr>
 
             <!-- Si Aucune donnée retrouvée -->
-            <tr *ngIf="evenementsFiltres.length === 0 && pageResponse?.totalItems === 0">
+            <tr *ngIf="evenementsFiltres.length === 0 && !isLoading">
               <td colspan="8" class="px-6 py-4 text-center">
-                <p>Aucune absence enregistrée.</p>
+                <p>Aucun résultat trouvé pour les filtres actuels.</p>
               </td>
             </tr>
+          </tbody>
         </table>
       </div>
 
       <!-- Pagination -->
-<div class="mt-6 flex justify-center">
-  <div *ngIf="totalPages > 1" class="flex items-center space-x-2">
-    <!-- Précédent -->
-    <button
-      (click)="goToPage(currentPage - 1)"
-      [disabled]="currentPage === 0"
-      class="px-4 py-2 text-sm rounded-lg border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
-    >
-      « Précédent
-    </button>
+      <div class="mt-6 flex justify-center">
+        <div *ngIf="totalPages > 1" class="flex items-center space-x-2">
+          <!-- Précédent -->
+          <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0"
+            class="px-4 py-2 text-sm rounded-lg border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition">
+            « Précédent
+          </button>
 
-    <!-- Pages -->
-    <ng-container *ngFor="let page of getPages()">
-      <button
-        (click)="goToPage(page)"
-        [class.bg-blue-600]="page === currentPage"
-        [class.text-white]="page === currentPage"
-        [class.font-semibold]="page === currentPage"
-        class="px-3 py-1.5 text-sm rounded-lg border hover:bg-blue-100 transition"
-      >
-        {{ page + 1 }}
-      </button>
-    </ng-container>
+          <!-- Pages -->
+          <ng-container *ngFor="let page of getPages()">
+            <button (click)="goToPage(page)" [class.bg-blue-600]="page === currentPage"
+              [class.text-white]="page === currentPage" [class.font-semibold]="page === currentPage"
+              class="px-3 py-1.5 text-sm rounded-lg border hover:bg-blue-100 transition">
+              {{ page + 1 }}
+            </button>
+          </ng-container>
 
-    <!-- Suivant -->
-    <button
-      (click)="goToPage(currentPage + 1)"
-      [disabled]="currentPage >= totalPages - 1"
-      class="px-4 py-2 text-sm rounded-lg border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition"
-    >
-      Suivant »
-    </button>
-  </div>
-
-
+          <!-- Suivant -->
+          <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= totalPages - 1"
+            class="px-4 py-2 text-sm rounded-lg border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition">
+            Suivant »
+          </button>
+        </div>
       </div>
     </main>
   </div>
