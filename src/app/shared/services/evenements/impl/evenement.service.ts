@@ -47,7 +47,7 @@ export class EvenementService {
     }
 
     return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/${this.nomEndpoints}/filtre/etat-type`, { params }
+      `${this.apiUrl}/${this.nomEndpoints}/filtre/etat-type-matricule`, { params }
     ).pipe(
       catchError(error => {
         console.error('Erreur lors de la récupération des événements filtrés :', error);
