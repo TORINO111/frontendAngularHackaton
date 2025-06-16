@@ -64,33 +64,34 @@ export class EvenementService {
     return this.httpClient.put<void>(`${this.apiUrl}/${this.nomEndpoints}/${absenceId}/rejeter`, {});
   }
 
-  getEvenementsByEtat(etat: string, page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
-    return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/${this.nomEndpoints}/etat/${etat}`,
-      { params }
-    ).pipe(
-      catchError(error => {
-        console.error('Erreur lors de la récupération des événements par état :', error);
-        return throwError(() => new Error('Impossible de charger les événements par état.'));
-      })
-    );
-  }
 
-  getEvenementsByType(type: string, page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
-    return this.httpClient.get<PageResponse<Evenement>>(
-      `${this.apiUrl}/${this.nomEndpoints}/type/${type}`,
-      { params }
-    ).pipe(
-      catchError(error => {
-        console.error('Erreur lors de la récupération des événements par type :', error);
-        return throwError(() => new Error('Impossible de charger les événements par type.'));
-      })
-    );
-  }
 }
+  // getEvenementsByEtat(etat: string, page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
+  //   let params = new HttpParams()
+  //     .set('page', page)
+  //     .set('size', size);
+  //   return this.httpClient.get<PageResponse<Evenement>>(
+  //     `${this.apiUrl}/${this.nomEndpoints}/etat/${etat}`,
+  //     { params }
+  //   ).pipe(
+  //     catchError(error => {
+  //       console.error('Erreur lors de la récupération des événements par état :', error);
+  //       return throwError(() => new Error('Impossible de charger les événements par état.'));
+  //     })
+  //   );
+  // }
+
+  // getEvenementsByType(type: string, page: number = 0, size: number = 4): Observable<PageResponse<Evenement>> {
+  //   let params = new HttpParams()
+  //     .set('page', page)
+  //     .set('size', size);
+  //   return this.httpClient.get<PageResponse<Evenement>>(
+  //     `${this.apiUrl}/${this.nomEndpoints}/type/${type}`,
+  //     { params }
+  //   ).pipe(
+  //     catchError(error => {
+  //       console.error('Erreur lors de la récupération des événements par type :', error);
+  //       return throwError(() => new Error('Impossible de charger les événements par type.'));
+  //     })
+  //   );
+  // }
